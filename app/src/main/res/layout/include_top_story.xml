@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/top_story_header"
-        android:textColor="#0F5132"
+        android:textColor="@color/primary_green"
         android:textSize="11sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
         android:text="@string/breaking_news"
-        android:textColor="#0F172A"
+        android:textColor="@color/text_primary"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -35,7 +35,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/view_all"
-        android:textColor="#0F5132"
+        android:textColor="@color/primary_green"
         android:textSize="13sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@id/tvBreakingNews"
@@ -73,7 +73,7 @@
             <View
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:background="#66000000"
+                android:background="@color/overlay_black_40"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -89,7 +89,7 @@
                 android:src="@android:drawable/btn_star_big_off"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:tint="#FFFFFF" />
+                app:tint="@color/white" />
 
             <TextView
                 android:id="@+id/tvTopStoryTitle"
@@ -100,7 +100,7 @@
                 android:ellipsize="end"
                 android:maxLines="2"
                 android:text=""
-                android:textColor="#FFFFFF"
+                android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@id/tvTopStoryMeta"
@@ -115,7 +115,7 @@
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginBottom="16dp"
                 android:text=""
-                android:textColor="#CBD5E1"
+                android:textColor="@color/text_light"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

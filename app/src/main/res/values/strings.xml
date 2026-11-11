@@ -32,4 +32,13 @@
     <string name="article_source_placeholder">TECHCRUNCH</string>
     <string name="article_title_placeholder">AI breakthrough enables real-time language translation</string>
     <string name="article_time_placeholder">2 hours ago</string>
+
+    <!-- Default Fallback Strings for UI -->
+    <string name="default_article_title">Tin tức</string>
+    <string name="default_source">NewsAPI</string>
+    <string name="default_author">Tòa soạn</string>
+    <string name="default_author_role">Phóng viên</string>
+    <string name="default_time_latest">Mới nhất</string>
+    <string name="msg_bookmark_saved">Đã lưu bài viết vào RoomDB</string>
+    <string name="msg_bookmark_removed">Đã bỏ lưu bài viết</string>
 </resources>

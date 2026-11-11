@@ -4,24 +4,20 @@ import android.os.Bundle
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
-import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import com.example.newsapp.R
 import com.example.newsapp.databinding.ActivityHomeBinding
 import com.example.newsapp.ui.adapter.NewsAdapter
+import com.example.newsapp.ui.base.BaseActivity
 import com.example.newsapp.ui.entity.Article
 import kotlinx.coroutines.launch
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
     private lateinit var binding: ActivityHomeBinding
     private lateinit var newsAdapter: NewsAdapter
@@ -43,29 +39,12 @@ class MainActivity : AppCompatActivity() {
         observeUiState()
     }
 
-    override fun onWindowFocusChanged(hasFocus: Boolean) {
-        super.onWindowFocusChanged(hasFocus)
-        if (hasFocus) {
-            hideSystemNavigationBar()
-        }
-    }
-
-    private fun hideSystemNavigationBar() {
-        WindowCompat.setDecorFitsSystemWindows(window, false)
-        val controller = WindowCompat.getInsetsController(window, window.decorView)
-        controller.systemBarsBehavior =
-            WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-        controller.hide(WindowInsetsCompat.Type.navigationBars())
-    }
-
     private fun setupRecyclerView() {
-        newsAdapter = NewsAdapter { article ->
+        newsAdapter = NewsAdapter()
+        newsAdapter.setOnItemClickListener { article ->
             Toast.makeText(this, article.title, Toast.LENGTH_SHORT).show()
         }
-        binding.includedNewsSection.rvNewsList.apply {
-            layoutManager = LinearLayoutManager(this@MainActivity)
-            adapter = newsAdapter
-        }
+        binding.includedNewsSection.rvNewsList.adapter = newsAdapter
     }
 
     private fun observeUiState() {
@@ -102,8 +81,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupTopStoryUi(article: Article, isBookmarked: Boolean) {
         val topStoryBinding = binding.includedTopStory
-        topStoryBinding.tvTopStoryTitle.text = article.title
-        topStoryBinding.tvTopStoryMeta.text = "${article.source} • ${article.time}"
+        topStoryBinding.tvTopStoryTitle.text = article.title.ifBlank { getString(R.string.default_article_title) }
+        val sourceText = article.source.ifBlank { getString(R.string.default_source) }
+        val timeText = article.time.ifBlank { getString(R.string.default_time_latest) }
+        topStoryBinding.tvTopStoryMeta.text = "$sourceText • $timeText"
 
         if (!article.imageUrl.isNullOrEmpty()) {
             topStoryBinding.imgTopStory.load(article.imageUrl) {
@@ -165,10 +146,10 @@ class MainActivity : AppCompatActivity() {
         buttons.forEach { (key, button) ->
             if (key == selectedKey) {
                 button.setBackgroundResource(R.drawable.bg_rounded_green)
-                button.setTextColor(ContextCompat.getColor(this, android.R.color.white))
+                button.setTextColor(ContextCompat.getColor(this, R.color.white))
             } else {
                 button.setBackgroundResource(R.drawable.bg_rounded_input)
-                button.setTextColor(android.graphics.Color.parseColor("#475569"))
+                button.setTextColor(ContextCompat.getColor(this, R.color.text_secondary))
             }
         }
     }

@@ -6,12 +6,17 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.example.newsapp.R
 import com.example.newsapp.databinding.ItemNewsCardBinding
 import com.example.newsapp.ui.entity.Article
 
-class NewsAdapter(
-    private val onItemClick: (Article) -> Unit = {}
-) : ListAdapter<Article, NewsAdapter.NewsViewHolder>(ArticleDiffCallback()) {
+class NewsAdapter : ListAdapter<Article, NewsAdapter.NewsViewHolder>(ArticleDiffCallback()) {
+
+    private var onItemClickListener: ((Article) -> Unit)? = null
+
+    fun setOnItemClickListener(listener: (Article) -> Unit) {
+        this.onItemClickListener = listener
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
         val binding = ItemNewsCardBinding.inflate(
@@ -31,9 +36,14 @@ class NewsAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(article: Article) {
-            binding.tvArticleSource.text = article.source.uppercase()
-            binding.tvArticleTitle.text = article.title
-            binding.tvArticleTime.text = article.time
+            val context = binding.root.context
+            val sourceText = article.source.ifBlank { context.getString(R.string.default_source) }
+            val titleText = article.title.ifBlank { context.getString(R.string.default_article_title) }
+            val timeText = article.time.ifBlank { context.getString(R.string.default_time_latest) }
+
+            binding.tvArticleSource.text = sourceText.uppercase()
+            binding.tvArticleTitle.text = titleText
+            binding.tvArticleTime.text = timeText
 
             if (!article.imageUrl.isNullOrEmpty()) {
                 binding.imgArticle.load(article.imageUrl) {
@@ -48,7 +58,7 @@ class NewsAdapter(
             }
 
             binding.root.setOnClickListener {
-                onItemClick(article)
+                onItemClickListener?.invoke(article)
             }
         }
     }

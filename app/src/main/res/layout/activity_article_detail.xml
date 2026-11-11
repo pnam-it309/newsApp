@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8F9FA"
+    android:background="@color/bg_light"
     android:fillViewport="true"
     android:fitsSystemWindows="true">
 
@@ -44,7 +44,7 @@
                 <View
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:background="#66000000"
+                    android:background="@color/overlay_black_40"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -62,7 +62,7 @@
                     android:src="@android:drawable/ic_menu_revert"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tint="#FFFFFF" />
+                    app:tint="@color/white" />
 
                 <ImageButton
                     android:id="@+id/btnDownload"
@@ -75,7 +75,7 @@
                     android:src="@android:drawable/ic_menu_save"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tint="#FFFFFF" />
+                    app:tint="@color/white" />
 
                 <ImageButton
                     android:id="@+id/btnBookmark"
@@ -88,7 +88,7 @@
                     android:src="@android:drawable/btn_star_big_off"
                     app:layout_constraintEnd_toStartOf="@id/btnDownload"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tint="#FFFFFF" />
+                    app:tint="@color/white" />
 
                 <ImageButton
                     android:id="@+id/btnShare"
@@ -101,7 +101,7 @@
                     android:src="@android:drawable/ic_menu_share"
                     app:layout_constraintEnd_toStartOf="@id/btnBookmark"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tint="#FFFFFF" />
+                    app:tint="@color/white" />
 
                 <!-- Bottom Captions -->
                 <TextView
@@ -113,7 +113,7 @@
                     android:background="@drawable/bg_badge_red"
                     android:paddingHorizontal="10dp"
                     android:paddingVertical="4dp"
-                    android:textColor="#FFFFFF"
+                    android:textColor="@color/white"
                     android:textSize="10sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toTopOf="@id/tvHeroCaption"
@@ -126,7 +126,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
                     android:layout_marginBottom="16dp"
-                    android:textColor="#CBD5E1"
+                    android:textColor="@color/text_light"
                     android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -143,7 +143,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:textColor="#0F5132"
+            android:textColor="@color/primary_green"
             android:textSize="12sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
@@ -156,7 +156,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="8dp"
-            android:textColor="#0F172A"
+            android:textColor="@color/text_primary"
             android:textSize="26sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -175,7 +175,7 @@
             android:src="@android:drawable/ic_menu_myplaces"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvDetailTitle"
-            app:tint="#0F5132" />
+            app:tint="@color/primary_green" />
 
         <TextView
             android:id="@+id/tvAuthorName"
@@ -183,7 +183,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:layout_marginEnd="8dp"
-            android:textColor="#0F172A"
+            android:textColor="@color/text_primary"
             android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@id/tvAuthorRole"
@@ -198,7 +198,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:layout_marginEnd="8dp"
-            android:textColor="#64748B"
+            android:textColor="@color/text_muted"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="@id/imgAuthorAvatar"
             app:layout_constraintEnd_toStartOf="@id/tvArticleMetaInfo"
@@ -212,7 +212,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:gravity="end"
-            android:textColor="#0F5132"
+            android:textColor="@color/primary_green"
             android:textSize="12sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@id/imgAuthorAvatar"
@@ -227,7 +227,7 @@
             android:layout_height="1dp"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="16dp"
-            android:background="#E2E8F0"
+            android:background="@color/divider_line"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/imgAuthorAvatar" />
@@ -240,7 +240,7 @@
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="16dp"
             android:lineSpacingExtra="6dp"
-            android:textColor="#1E293B"
+            android:textColor="@color/text_dark"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -254,7 +254,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="24dp"
-            app:cardBackgroundColor="#E8F5E9"
+            app:cardBackgroundColor="@color/card_green_bg"
             app:cardCornerRadius="20dp"
             app:cardElevation="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -273,7 +273,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:text="OFFLINE MEDIA"
-                    android:textColor="#0F5132"
+                    android:textColor="@color/primary_green"
                     android:textSize="11sp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toStartOf="@id/imgDownloadIcon"
@@ -287,7 +287,7 @@
                     android:layout_marginTop="4dp"
                     android:layout_marginEnd="8dp"
                     android:text="Download Article Media"
-                    android:textColor="#0F172A"
+                    android:textColor="@color/text_primary"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toStartOf="@id/imgDownloadIcon"
@@ -303,7 +303,7 @@
                     app:layout_constraintBottom_toBottomOf="@id/tvDownloadTitle"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@id/tvDownloadTag"
-                    app:tint="#0F5132" />
+                    app:tint="@color/primary_green" />
 
                 <TextView
                     android:id="@+id/tvDownloadDesc"
@@ -311,7 +311,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:text="Save the full-resolution cover image and a reader-friendly PDF for offline access."
-                    android:textColor="#475569"
+                    android:textColor="@color/text_secondary"
                     android:textSize="13sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -323,9 +323,9 @@
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_marginTop="16dp"
-                    android:backgroundTint="#0F5132"
+                    android:backgroundTint="@color/primary_green"
                     android:text="Download Full Resolution Image / PDF"
-                    android:textColor="#FFFFFF"
+                    android:textColor="@color/white"
                     android:textSize="14sp"
                     app:cornerRadius="24dp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -339,7 +339,7 @@
                     android:layout_marginTop="8dp"
                     android:gravity="center"
                     android:text="9.6 MB total • Available offline"
-                    android:textColor="#64748B"
+                    android:textColor="@color/text_muted"
                     android:textSize="11sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

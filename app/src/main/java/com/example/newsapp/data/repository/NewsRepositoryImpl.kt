@@ -105,22 +105,22 @@ class NewsRepositoryImpl(
         val formattedTime = if (!publishedAt.isNullOrEmpty()) {
             publishedAt.take(10)
         } else {
-            "Mới nhất"
+            ""
         }
         return ArticleEntity(
-            id,
-            title ?: "Tin tức",
-            source?.name ?: "NewsAPI",
-            formattedTime,
-            category,
-            author ?: "Tòa soạn",
-            "Phóng viên",
-            content ?: description ?: "",
-            false,
-            urlToImage,
-            url,
-            null,
-            System.currentTimeMillis()
+            id = id,
+            title = title ?: "",
+            source = source?.name ?: "",
+            time = formattedTime,
+            category = category,
+            authorName = author ?: "",
+            authorRole = "",
+            body = content ?: description ?: "",
+            isSaved = false,
+            imageUrl = urlToImage,
+            url = url,
+            imageResId = null,
+            fetchedAt = System.currentTimeMillis()
         )
     }
 }
