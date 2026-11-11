@@ -52,8 +52,8 @@
         tools:itemCount="3"
         tools:listitem="@layout/item_news_card" />
 
-    <!-- Bottom Navigation Bar -->
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <!-- Bottom Navigation Bar Background -->
+    <View
         android:id="@+id/bottomNavigation"
         android:layout_width="0dp"
         android:layout_height="64dp"
@@ -62,51 +62,49 @@
         android:fitsSystemWindows="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent" />
 
-        <Button
-            android:id="@+id/btnNavHome"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:drawableTop="@android:drawable/ic_menu_compass"
-            android:text="@string/nav_home"
-            android:textColor="#64748B"
-            android:textSize="11sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/btnNavSaved"
-            app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <Button
+        android:id="@+id/btnNavHome"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="0dp"
+        android:layout_height="64dp"
+        android:elevation="8dp"
+        android:drawableTop="@android:drawable/ic_menu_compass"
+        android:text="@string/nav_home"
+        android:textColor="#64748B"
+        android:textSize="11sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btnNavSaved"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintStart_toStartOf="parent" />
 
-        <Button
-            android:id="@+id/btnNavSaved"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:drawableTop="@android:drawable/btn_star_big_off"
-            android:text="@string/nav_saved"
-            android:textColor="#0F5132"
-            android:textSize="11sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/btnNavProfile"
-            app:layout_constraintStart_toEndOf="@id/btnNavHome"
-            app:layout_constraintTop_toTopOf="parent" />
+    <Button
+        android:id="@+id/btnNavSaved"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="0dp"
+        android:layout_height="64dp"
+        android:elevation="8dp"
+        android:drawableTop="@android:drawable/btn_star_big_off"
+        android:text="@string/nav_saved"
+        android:textColor="#0F5132"
+        android:textSize="11sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btnNavProfile"
+        app:layout_constraintStart_toEndOf="@id/btnNavHome" />
 
-        <Button
-            android:id="@+id/btnNavProfile"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:drawableTop="@android:drawable/ic_menu_myplaces"
-            android:text="@string/nav_profile"
-            android:textColor="#64748B"
-            android:textSize="11sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/btnNavSaved"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <Button
+        android:id="@+id/btnNavProfile"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="0dp"
+        android:layout_height="64dp"
+        android:elevation="8dp"
+        android:drawableTop="@android:drawable/ic_menu_myplaces"
+        android:text="@string/nav_profile"
+        android:textColor="#64748B"
+        android:textSize="11sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btnNavSaved" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
