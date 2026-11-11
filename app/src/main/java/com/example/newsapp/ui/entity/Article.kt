@@ -16,3 +16,9 @@ data class Article(
     val url: String? = null,
     val imageResId: Int? = null
 ) : Serializable
+
+data class Category(
+    val id: String,
+    val name: String,
+    var isSelected: Boolean = false
+)

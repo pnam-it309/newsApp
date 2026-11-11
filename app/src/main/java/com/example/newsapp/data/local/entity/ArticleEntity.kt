@@ -35,21 +35,4 @@ data class ArticleEntity(
         url = url,
         imageResId = imageResId
     )
-
-    companion object {
-        fun fromArticle(article: Article): ArticleEntity = ArticleEntity(
-            id = article.id,
-            title = article.title,
-            source = article.source,
-            time = article.time,
-            category = article.category,
-            authorName = article.authorName,
-            authorRole = article.authorRole,
-            body = article.body,
-            isSaved = article.isSaved,
-            imageUrl = article.imageUrl,
-            url = article.url,
-            imageResId = article.imageResId
-        )
-    }
 }
