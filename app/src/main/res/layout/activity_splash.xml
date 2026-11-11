@@ -6,53 +6,60 @@
     android:layout_height="match_parent"
     android:background="#0F5132">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <ImageView
+        android:id="@+id/imgSplashLogo"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:contentDescription="@string/app_bar_logo_desc"
+        android:src="@android:drawable/ic_menu_compass"
+        app:layout_constraintBottom_toTopOf="@id/tvSplashTitle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/imgSplashLogo"
-            android:layout_width="72dp"
-            android:layout_height="72dp"
-            android:contentDescription="@string/app_bar_logo_desc"
-            android:src="@android:drawable/ic_menu_compass"
-            app:tint="#FFFFFF" />
-
-        <TextView
-            android:id="@+id/tvSplashTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:letterSpacing="0.05"
-            android:text="@string/news_flash"
-            android:textColor="#FFFFFF"
-            android:textSize="32sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tvSplashSubtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:text="Your Daily News Companion"
-            android:textColor="#A7F3D0"
-            android:textSize="14sp" />
-
-        <ProgressBar
-            android:id="@+id/progressBarSplash"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:layout_marginTop="40dp"
-            android:indeterminateTint="#FFFFFF" />
-    </LinearLayout>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:tint="#FFFFFF" />
 
     <TextView
+        android:id="@+id/tvSplashTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:letterSpacing="0.05"
+        android:text="@string/news_flash"
+        android:textColor="#FFFFFF"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/tvSplashSubtitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imgSplashLogo" />
+
+    <TextView
+        android:id="@+id/tvSplashSubtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:text="Your Daily News Companion"
+        android:textColor="#A7F3D0"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@id/progressBarSplash"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvSplashTitle" />
+
+    <ProgressBar
+        android:id="@+id/progressBarSplash"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="40dp"
+        android:indeterminateTint="#FFFFFF"
+        app:layout_constraintBottom_toTopOf="@id/tvSplashFooter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvSplashSubtitle" />
+
+    <TextView
+        android:id="@+id/tvSplashFooter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
