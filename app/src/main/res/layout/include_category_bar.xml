@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<HorizontalScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:fillViewport="true"
+    android:scrollbars="none"
+    android:paddingVertical="8dp">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnCatGeneral"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:layout_marginEnd="8dp"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:paddingVertical="0dp"
+            android:paddingHorizontal="16dp"
+            android:gravity="center"
+            android:background="@drawable/bg_rounded_green"
+            android:clickable="true"
+            android:focusable="true"
+            android:text="@string/cat_general"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnCatTech"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:layout_marginEnd="8dp"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:paddingVertical="0dp"
+            android:paddingHorizontal="16dp"
+            android:gravity="center"
+            android:background="@drawable/bg_rounded_input"
+            android:clickable="true"
+            android:focusable="true"
+            android:text="@string/cat_tech"
+            android:textColor="#475569"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnCatBusiness"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:layout_marginEnd="8dp"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:paddingVertical="0dp"
+            android:paddingHorizontal="16dp"
+            android:gravity="center"
+            android:background="@drawable/bg_rounded_input"
+            android:clickable="true"
+            android:focusable="true"
+            android:text="@string/cat_business"
+            android:textColor="#475569"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnCatSports"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:layout_marginEnd="8dp"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:paddingVertical="0dp"
+            android:paddingHorizontal="16dp"
+            android:gravity="center"
+            android:background="@drawable/bg_rounded_input"
+            android:clickable="true"
+            android:focusable="true"
+            android:text="@string/cat_sports"
+            android:textColor="#475569"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnCatEntertainment"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:paddingVertical="0dp"
+            android:paddingHorizontal="16dp"
+            android:gravity="center"
+            android:background="@drawable/bg_rounded_input"
+            android:clickable="true"
+            android:focusable="true"
+            android:text="@string/cat_entertainment"
+            android:textColor="#475569"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+</HorizontalScrollView>

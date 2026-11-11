@@ -1,3 +1,35 @@
 <resources>
-    <string name="app_name">newsApp</string>
+    <string name="app_name">NewsFlash</string>
+    <string name="app_bar_logo_desc">App Logo</string>
+    <string name="bookmark_desc">Bookmark</string>
+    <string name="top_story_image_desc">Top Story Image</string>
+    <string name="nav_home">Home</string>
+    <string name="nav_saved">Saved</string>
+    <string name="nav_profile">Profile</string>
+    <string name="cat_general">General</string>
+    <string name="cat_tech">Tech</string>
+    <string name="cat_business">Business</string>
+    <string name="cat_sports">Sports</string>
+    <string name="cat_entertainment">Entertainment</string>
+    <string name="news_flash">NewsFlash</string>
+    <string name="theme_toggle_desc">Toggle Theme</string>
+    <string name="latest_for_you">Latest For You</string>
+    <string name="stories_count">32 Stories</string>
+    <string name="settings_header">SETTINGS &amp; PREFERENCES</string>
+    <string name="settings_dark_mode">Dark Mode</string>
+    <string name="settings_notifications">Notifications</string>
+    <string name="settings_about">About NewsFlash</string>
+    <string name="profile_name">Alex Morgan</string>
+    <string name="profile_email">alex.morgan@example.com</string>
+    <string name="search_hint">Search news, topics...</string>
+    <string name="date_picker_desc">Select Date</string>
+    <string name="top_story_header">TOP STORY</string>
+    <string name="breaking_news">Breaking News</string>
+    <string name="view_all">View All</string>
+    <string name="top_story_title">Global Climate Summit Reaches Landmark Accord in Paris</string>
+    <string name="top_story_meta">BBC News • 5 mins ago</string>
+    <string name="article_image_desc">Article Image</string>
+    <string name="article_source_placeholder">TECHCRUNCH</string>
+    <string name="article_title_placeholder">AI breakthrough enables real-time language translation</string>
+    <string name="article_time_placeholder">2 hours ago</string>
 </resources>
