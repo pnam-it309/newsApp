@@ -41,4 +41,23 @@
     <string name="default_time_latest">Mới nhất</string>
     <string name="msg_bookmark_saved">Đã lưu bài viết vào RoomDB</string>
     <string name="msg_bookmark_removed">Đã bỏ lưu bài viết</string>
+
+    <!-- Detail Screen Strings -->
+    <string name="detail_offline_tag">OFFLINE MEDIA</string>
+    <string name="detail_download_title">Download Article Media</string>
+    <string name="detail_download_desc">Save the full-resolution cover image and a reader-friendly PDF for offline access.</string>
+    <string name="detail_btn_download_full">Đọc bài báo gốc đầy đủ</string>
+    <string name="detail_download_meta">9.6 MB total • Available offline</string>
+    <string name="detail_share_chooser_title">Chia sẻ bài viết qua</string>
+    <string name="detail_cannot_open_url">Không thể mở liên kết bài viết</string>
+    <string name="detail_url_unavailable">Liên kết bài viết không khả dụng</string>
+    <string name="detail_no_body_fallback">Nội dung chi tiết đang được cập nhật từ nguồn tin. Vui lòng bấm vào nút bên dưới để đọc bài viết gốc đầy đủ trên trang báo.</string>
+    <string name="btn_back_desc">Back</string>
+    <string name="btn_share_desc">Share</string>
+    <string name="btn_open_web_desc">Open in Browser</string>
+
+    <!-- Splash and Saved Screen Strings -->
+    <string name="splash_tagline">Your Daily News Companion</string>
+    <string name="splash_version">NewsFlash v1.0</string>
+    <string name="saved_subtitle">Your bookmarked articles for offline reading</string>
 </resources>

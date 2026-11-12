@@ -57,7 +57,7 @@ class ArticleDetailActivity : BaseActivity() {
         binding.tvArticleBody.text = if (currentArticle.body.isNotBlank()) {
             currentArticle.body
         } else {
-            currentArticle.title + "\n\n" + getString(R.string.article_time_placeholder)
+            getString(R.string.detail_no_body_fallback)
         }
 
         if (!currentArticle.imageUrl.isNullOrEmpty()) {
@@ -71,13 +71,21 @@ class ArticleDetailActivity : BaseActivity() {
         }
 
         updateBookmarkIcon(currentArticle.isSaved)
+
+        lifecycleScope.launch {
+            val db = AppDatabase.getInstance(applicationContext)
+            val savedList = db.articleDao().getSavedArticles()
+            val isSavedInDb = savedList.any { it.id == currentArticle.id }
+            currentArticle.isSaved = isSavedInDb
+            updateBookmarkIcon(isSavedInDb)
+        }
     }
 
     private fun updateBookmarkIcon(isSaved: Boolean) {
         val iconRes = if (isSaved) {
-            android.R.drawable.btn_star_big_on
+            R.drawable.ic_bookmark_filled
         } else {
-            android.R.drawable.btn_star_big_off
+            R.drawable.ic_bookmark
         }
         binding.btnBookmark.setImageResource(iconRes)
     }
@@ -94,7 +102,7 @@ class ArticleDetailActivity : BaseActivity() {
                 putExtra(Intent.EXTRA_TEXT, shareText)
                 type = "text/plain"
             }
-            startActivity(Intent.createChooser(sendIntent, "Share article via"))
+            startActivity(Intent.createChooser(sendIntent, getString(R.string.detail_share_chooser_title)))
         }
 
         binding.btnBookmark.setOnClickListener {
@@ -127,10 +135,10 @@ class ArticleDetailActivity : BaseActivity() {
             try {
                 startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
             } catch (e: Exception) {
-                Toast.makeText(this, "Cannot open URL", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.detail_cannot_open_url), Toast.LENGTH_SHORT).show()
             }
         } else {
-            Toast.makeText(this, "Article URL is not available", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.detail_url_unavailable), Toast.LENGTH_SHORT).show()
         }
     }
 

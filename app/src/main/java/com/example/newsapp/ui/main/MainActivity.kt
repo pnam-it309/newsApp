@@ -1,5 +1,6 @@
 package com.example.newsapp.ui.main
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.SearchView
 import android.widget.Toast
@@ -14,6 +15,7 @@ import com.example.newsapp.R
 import com.example.newsapp.databinding.ActivityHomeBinding
 import com.example.newsapp.ui.adapter.NewsAdapter
 import com.example.newsapp.ui.base.BaseActivity
+import com.example.newsapp.ui.detail.ArticleDetailActivity
 import com.example.newsapp.ui.entity.Article
 import kotlinx.coroutines.launch
 
@@ -42,9 +44,16 @@ class MainActivity : BaseActivity() {
     private fun setupRecyclerView() {
         newsAdapter = NewsAdapter()
         newsAdapter.setOnItemClickListener { article ->
-            Toast.makeText(this, article.title, Toast.LENGTH_SHORT).show()
+            openArticleDetail(article)
         }
         binding.includedNewsSection.rvNewsList.adapter = newsAdapter
+    }
+
+    private fun openArticleDetail(article: Article) {
+        val intent = Intent(this, ArticleDetailActivity::class.java).apply {
+            putExtra(ArticleDetailActivity.EXTRA_ARTICLE, article)
+        }
+        startActivity(intent)
     }
 
     private fun observeUiState() {
@@ -97,14 +106,14 @@ class MainActivity : BaseActivity() {
         }
 
         val iconRes = if (isBookmarked) {
-            android.R.drawable.btn_star_big_on
+            R.drawable.ic_bookmark_filled
         } else {
-            android.R.drawable.btn_star_big_off
+            R.drawable.ic_bookmark
         }
         topStoryBinding.btnBookmarkTopStory.setImageResource(iconRes)
 
         topStoryBinding.cardTopStory.setOnClickListener {
-            Toast.makeText(this, article.title, Toast.LENGTH_SHORT).show()
+            openArticleDetail(article)
         }
     }
 
