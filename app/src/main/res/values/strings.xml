@@ -56,6 +56,21 @@
     <string name="btn_share_desc">Share</string>
     <string name="btn_open_web_desc">Open in Browser</string>
 
+    <!-- Modal Strings -->
+    <string name="modal_actions_title">Tùy chọn bài viết</string>
+    <string name="modal_open_browser_title">Đọc bài báo gốc trên web</string>
+    <string name="modal_open_browser_desc">Mở toàn bộ bài viết trên trang báo gốc</string>
+    <string name="modal_copy_link_title">Sao chép liên kết bài viết</string>
+    <string name="modal_copy_link_desc">Copy URL bài viết vào bộ nhớ tạm</string>
+    <string name="modal_share_title">Chia sẻ bài viết</string>
+    <string name="modal_share_desc">Gửi bài báo qua ứng dụng khác</string>
+    <string name="modal_bookmark_title">Lưu / Bỏ lưu bài viết</string>
+    <string name="modal_bookmark_desc">Đánh dấu bài viết để đọc lại sau</string>
+    <string name="modal_view_image_title">Xem ảnh bìa gốc</string>
+    <string name="modal_view_image_desc">Mở ảnh chất lượng cao trên trình duyệt</string>
+    <string name="modal_close">Đóng</string>
+    <string name="msg_link_copied">Đã sao chép liên kết vào bộ nhớ tạm</string>
+
     <!-- Splash and Saved Screen Strings -->
     <string name="splash_tagline">Your Daily News Companion</string>
     <string name="splash_version">NewsFlash v1.0</string>

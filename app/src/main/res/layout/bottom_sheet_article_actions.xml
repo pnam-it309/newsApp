@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/bg_light"
+    android:paddingHorizontal="20dp"
+    android:paddingTop="12dp"
+    android:paddingBottom="24dp">
+
+    <!-- Drag Handle -->
+    <View
+        android:id="@+id/viewDragHandle"
+        android:layout_width="40dp"
+        android:layout_height="4dp"
+        android:background="@drawable/bg_rounded_circle"
+        android:backgroundTint="@color/divider_line"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Modal Title -->
+    <TextView
+        android:id="@+id/tvModalTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/modal_actions_title"
+        android:textColor="@color/text_primary"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/viewDragHandle" />
+
+    <!-- Article Title Snippet -->
+    <TextView
+        android:id="@+id/tvModalArticleTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/text_muted"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvModalTitle"
+        tools:text="Global Climate Summit Reaches Landmark Accord" />
+
+    <View
+        android:id="@+id/dividerModalHeader"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="12dp"
+        android:background="@color/divider_line"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvModalArticleTitle" />
+
+    <!-- Option 1: Open in Browser -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutActionOpenBrowser"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:paddingVertical="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dividerModalHeader">
+
+        <ImageView
+            android:id="@+id/imgActionOpenBrowser"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@drawable/bg_rounded_circle"
+            android:backgroundTint="@color/card_green_bg"
+            android:contentDescription="@string/modal_open_browser_title"
+            android:padding="8dp"
+            android:src="@drawable/ic_open_in_browser"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/primary_green" />
+
+        <TextView
+            android:id="@+id/tvActionOpenBrowserTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:text="@string/modal_open_browser_title"
+            android:textColor="@color/text_primary"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/imgActionOpenBrowser"
+            app:layout_constraintTop_toTopOf="@id/imgActionOpenBrowser" />
+
+        <TextView
+            android:id="@+id/tvActionOpenBrowserDesc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:text="@string/modal_open_browser_desc"
+            android:textColor="@color/text_secondary"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@id/imgActionOpenBrowser"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/imgActionOpenBrowser"
+            app:layout_constraintTop_toBottomOf="@id/tvActionOpenBrowserTitle" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Option 2: Copy Link -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutActionCopyLink"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:paddingVertical="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layoutActionOpenBrowser">
+
+        <ImageView
+            android:id="@+id/imgActionCopyLink"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@drawable/bg_rounded_circle"
+            android:backgroundTint="@color/card_green_bg"
+            android:contentDescription="@string/modal_copy_link_title"
+            android:padding="8dp"
+            android:src="@drawable/ic_content_copy"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/primary_green" />
+
+        <TextView
+            android:id="@+id/tvActionCopyLinkTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:text="@string/modal_copy_link_title"
+            android:textColor="@color/text_primary"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/imgActionCopyLink"
+            app:layout_constraintTop_toTopOf="@id/imgActionCopyLink" />
+
+        <TextView
+            android:id="@+id/tvActionCopyLinkDesc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:text="@string/modal_copy_link_desc"
+            android:textColor="@color/text_secondary"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@id/imgActionCopyLink"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/imgActionCopyLink"
+            app:layout_constraintTop_toBottomOf="@id/tvActionCopyLinkTitle" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Option 3: Share -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutActionShare"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:paddingVertical="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layoutActionCopyLink">
+
+        <ImageView
+            android:id="@+id/imgActionShare"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@drawable/bg_rounded_circle"
+            android:backgroundTint="@color/card_green_bg"
+            android:contentDescription="@string/modal_share_title"
+            android:padding="8dp"
+            android:src="@drawable/ic_share"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/primary_green" />
+
+        <TextView
+            android:id="@+id/tvActionShareTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:text="@string/modal_share_title"
+            android:textColor="@color/text_primary"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/imgActionShare"
+            app:layout_constraintTop_toTopOf="@id/imgActionShare" />
+
+        <TextView
+            android:id="@+id/tvActionShareDesc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:text="@string/modal_share_desc"
+            android:textColor="@color/text_secondary"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@id/imgActionShare"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/imgActionShare"
+            app:layout_constraintTop_toBottomOf="@id/tvActionShareTitle" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Option 4: Bookmark Toggle -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutActionBookmark"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:paddingVertical="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layoutActionShare">
+
+        <ImageView
+            android:id="@+id/imgActionBookmark"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@drawable/bg_rounded_circle"
+            android:backgroundTint="@color/card_green_bg"
+            android:contentDescription="@string/modal_bookmark_title"
+            android:padding="8dp"
+            android:src="@drawable/ic_bookmark"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/primary_green" />
+
+        <TextView
+            android:id="@+id/tvActionBookmarkTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:text="@string/modal_bookmark_title"
+            android:textColor="@color/text_primary"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/imgActionBookmark"
+            app:layout_constraintTop_toTopOf="@id/imgActionBookmark" />
+
+        <TextView
+            android:id="@+id/tvActionBookmarkDesc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:text="@string/modal_bookmark_desc"
+            android:textColor="@color/text_secondary"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@id/imgActionBookmark"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/imgActionBookmark"
+            app:layout_constraintTop_toBottomOf="@id/tvActionBookmarkTitle" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Close Button -->
+    <Button
+        android:id="@+id/btnModalClose"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/modal_close"
+        android:textColor="@color/text_secondary"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layoutActionBookmark" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
