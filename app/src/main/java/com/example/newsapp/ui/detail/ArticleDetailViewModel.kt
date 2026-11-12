@@ -122,3 +122,4 @@ class ArticleDetailViewModel(
         _uiState.update { it.copy(copyLinkEvent = null) }
     }
 }
+

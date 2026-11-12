@@ -22,8 +22,15 @@ import kotlinx.coroutines.launch
 class MainActivity : BaseActivity() {
 
     private lateinit var binding: ActivityHomeBinding
-    private lateinit var newsAdapter: NewsAdapter
     private val viewModel: NewsViewModel by viewModels()
+
+    private val newsAdapter: NewsAdapter by lazy {
+        NewsAdapter().apply {
+            setOnItemClickListener { article ->
+                openArticleDetail(article)
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,10 +49,6 @@ class MainActivity : BaseActivity() {
     }
 
     private fun setupRecyclerView() {
-        newsAdapter = NewsAdapter()
-        newsAdapter.setOnItemClickListener { article ->
-            openArticleDetail(article)
-        }
         binding.includedNewsSection.rvNewsList.adapter = newsAdapter
     }
 
