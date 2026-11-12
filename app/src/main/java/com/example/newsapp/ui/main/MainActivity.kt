@@ -19,10 +19,10 @@ import kotlinx.coroutines.launch
 
 class MainActivity : BaseActivity() {
 
-    private val binding: ActivityHomeBinding by lazy(LazyThreadSafetyMode.NONE) {
+    private val binding: ActivityHomeBinding by lazy {
         ActivityHomeBinding.inflate(layoutInflater)
     }
-    private val newsAdapter: NewsAdapter by lazy(LazyThreadSafetyMode.NONE) {
+    private val newsAdapter: NewsAdapter by lazy {
         NewsAdapter().apply {
             setOnItemClickListener { article ->
                 Toast.makeText(this@MainActivity, article.title, Toast.LENGTH_SHORT).show()

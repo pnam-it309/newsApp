@@ -17,18 +17,19 @@ import kotlinx.coroutines.launch
 
 class ArticleDetailActivity : BaseActivity() {
 
-    private lateinit var binding: ActivityArticleDetailBinding
-    private var article: Article? = null
+    private val binding: ActivityArticleDetailBinding by lazy {
+        ActivityArticleDetailBinding.inflate(layoutInflater)
+    }
+    private val article: Article? by lazy {
+        intent.extras?.let { bundle ->
+            BundleCompat.getParcelable(bundle, EXTRA_ARTICLE, Article::class.java)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         hideSystemNavigationBar()
-        binding = ActivityArticleDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        article = intent.extras?.let { bundle ->
-            BundleCompat.getParcelable(bundle, EXTRA_ARTICLE, Article::class.java)
-        }
 
         bindArticleData()
         setupListeners()
