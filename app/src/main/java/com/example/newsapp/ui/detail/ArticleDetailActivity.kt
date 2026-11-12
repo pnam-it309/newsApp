@@ -2,9 +2,9 @@ package com.example.newsapp.ui.detail
 
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
+import androidx.core.os.BundleCompat
 import androidx.lifecycle.lifecycleScope
 import coil.load
 import com.example.newsapp.R
@@ -26,11 +26,8 @@ class ArticleDetailActivity : BaseActivity() {
         binding = ActivityArticleDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        article = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            intent.getSerializableExtra(EXTRA_ARTICLE, Article::class.java)
-        } else {
-            @Suppress("DEPRECATION")
-            intent.getSerializableExtra(EXTRA_ARTICLE) as? Article
+        article = intent.extras?.let { bundle ->
+            BundleCompat.getParcelable(bundle, EXTRA_ARTICLE, Article::class.java)
         }
 
         bindArticleData()

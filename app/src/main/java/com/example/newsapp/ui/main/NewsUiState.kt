@@ -9,5 +9,9 @@ data class NewsUiState(
     val selectedCategory: String = "ALL",
     val searchQuery: String = "",
     val isTopStoryBookmarked: Boolean = false,
+    val themeModeEvent: Int? = null,
     val userMessage: String? = null
-)
+) {
+    val showTopStory: Boolean
+        get() = searchQuery.isBlank()
+}

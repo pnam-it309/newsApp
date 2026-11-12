@@ -1,6 +1,7 @@
 package com.example.newsapp.ui.main
 
 import android.app.Application
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.newsapp.data.local.AppDatabase
@@ -141,6 +142,27 @@ class NewsViewModel(
         viewModelScope.launch {
             repository.toggleBookmark(currentTopStory.id, newBookmarkedState)
         }
+    }
+
+    fun onThemeToggleClicked() {
+        val isCurrentlyDark = AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES
+        val nextMode = if (isCurrentlyDark) {
+            AppCompatDelegate.MODE_NIGHT_NO
+        } else {
+            AppCompatDelegate.MODE_NIGHT_YES
+        }
+        val msg = if (isCurrentlyDark) "Light Mode Enabled" else "Dark Mode Enabled"
+
+        _uiState.update {
+            it.copy(
+                themeModeEvent = nextMode,
+                userMessage = msg
+            )
+        }
+    }
+
+    fun themeModeEventHandled() {
+        _uiState.update { it.copy(themeModeEvent = null) }
     }
 
     fun userMessageShown() {

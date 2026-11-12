@@ -19,14 +19,21 @@ import kotlinx.coroutines.launch
 
 class MainActivity : BaseActivity() {
 
-    private lateinit var binding: ActivityHomeBinding
-    private lateinit var newsAdapter: NewsAdapter
+    private val binding: ActivityHomeBinding by lazy(LazyThreadSafetyMode.NONE) {
+        ActivityHomeBinding.inflate(layoutInflater)
+    }
+    private val newsAdapter: NewsAdapter by lazy(LazyThreadSafetyMode.NONE) {
+        NewsAdapter().apply {
+            setOnItemClickListener { article ->
+                Toast.makeText(this@MainActivity, article.title, Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
     private val viewModel: NewsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         hideSystemNavigationBar()
-        binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         setupRecyclerView()
@@ -40,10 +47,6 @@ class MainActivity : BaseActivity() {
     }
 
     private fun setupRecyclerView() {
-        newsAdapter = NewsAdapter()
-        newsAdapter.setOnItemClickListener { article ->
-            Toast.makeText(this, article.title, Toast.LENGTH_SHORT).show()
-        }
         binding.includedNewsSection.rvNewsList.adapter = newsAdapter
     }
 
