@@ -4,12 +4,13 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.core.os.BundleCompat
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import coil.load
 import com.example.newsapp.R
-import com.example.newsapp.data.local.AppDatabase
-import com.example.newsapp.data.repository.NewsRepositoryImpl
 import com.example.newsapp.databinding.ActivityArticleDetailBinding
 import com.example.newsapp.ui.base.BaseActivity
 import com.example.newsapp.ui.entity.Article
@@ -20,23 +21,35 @@ class ArticleDetailActivity : BaseActivity() {
     private val binding: ActivityArticleDetailBinding by lazy {
         ActivityArticleDetailBinding.inflate(layoutInflater)
     }
-    private val article: Article? by lazy {
-        intent.extras?.let { bundle ->
-            BundleCompat.getParcelable(bundle, EXTRA_ARTICLE, Article::class.java)
-        }
-    }
+    private val viewModel: ArticleDetailViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         hideSystemNavigationBar()
         setContentView(binding.root)
 
-        bindArticleData()
+        val article = intent.extras?.let { bundle ->
+            BundleCompat.getParcelable(bundle, EXTRA_ARTICLE, Article::class.java)
+        }
+
+        viewModel.setArticle(article)
+
         setupListeners()
+        observeUiState()
     }
 
-    private fun bindArticleData() {
-        val currentArticle = article ?: return
+    private fun observeUiState() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiState.collect { state ->
+                    renderUiState(state)
+                }
+            }
+        }
+    }
+
+    private fun renderUiState(state: ArticleDetailUiState) {
+        val currentArticle = state.article ?: return
 
         val defaultTitle = getString(R.string.default_article_title)
         val defaultAuthor = getString(R.string.default_author)
@@ -49,13 +62,15 @@ class ArticleDetailActivity : BaseActivity() {
         binding.tvHeroCaption.text = currentArticle.title.ifBlank { defaultTitle }
         binding.tvAuthorName.text = currentArticle.authorName.ifBlank { defaultAuthor }
         binding.tvAuthorRole.text = currentArticle.authorRole.ifBlank { getString(R.string.default_author_role) }
+
         val source = currentArticle.source.ifBlank { defaultSource }
         val time = currentArticle.time.ifBlank { defaultTime }
         binding.tvArticleMetaInfo.text = "$source\n$time"
+
         binding.tvArticleBody.text = if (currentArticle.body.isNotBlank()) {
             currentArticle.body
         } else {
-            currentArticle.title + "\n\n" + getString(R.string.article_time_placeholder)
+            getString(R.string.detail_no_body_fallback)
         }
 
         if (!currentArticle.imageUrl.isNullOrEmpty()) {
@@ -68,14 +83,29 @@ class ArticleDetailActivity : BaseActivity() {
             binding.imgArticleHero.setImageResource(android.R.drawable.ic_menu_gallery)
         }
 
-        updateBookmarkIcon(currentArticle.isSaved)
+        updateBookmarkIcon(state.isSaved)
+
+        state.userMessage?.let { msg ->
+            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+            viewModel.userMessageShown()
+        }
+
+        state.openUrlEvent?.let { url ->
+            openWebUrl(url)
+            viewModel.openUrlEventHandled()
+        }
+
+        state.shareEvent?.let { (title, url) ->
+            shareArticleText(title, url)
+            viewModel.shareEventHandled()
+        }
     }
 
     private fun updateBookmarkIcon(isSaved: Boolean) {
         val iconRes = if (isSaved) {
-            android.R.drawable.btn_star_big_on
+            R.drawable.ic_bookmark_filled
         } else {
-            android.R.drawable.btn_star_big_off
+            R.drawable.ic_bookmark
         }
         binding.btnBookmark.setImageResource(iconRes)
     }
@@ -86,50 +116,50 @@ class ArticleDetailActivity : BaseActivity() {
         }
 
         binding.btnShare.setOnClickListener {
-            val shareText = "${article?.title}\n${article?.url ?: ""}"
-            val sendIntent = Intent().apply {
-                action = Intent.ACTION_SEND
-                putExtra(Intent.EXTRA_TEXT, shareText)
-                type = "text/plain"
-            }
-            startActivity(Intent.createChooser(sendIntent, "Share article via"))
+            viewModel.onShareClicked()
         }
 
         binding.btnBookmark.setOnClickListener {
-            val current = article ?: return@setOnClickListener
-            current.isSaved = !current.isSaved
-            updateBookmarkIcon(current.isSaved)
-
-            lifecycleScope.launch {
-                val db = AppDatabase.getInstance(applicationContext)
-                val repo = NewsRepositoryImpl(articleDao = db.articleDao())
-                repo.toggleBookmark(current.id, current.isSaved)
-            }
-
-            val msg = if (current.isSaved) getString(R.string.msg_bookmark_saved) else getString(R.string.msg_bookmark_removed)
-            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+            viewModel.toggleBookmark()
         }
 
         binding.btnDownload.setOnClickListener {
-            openArticleUrl()
+            showActionsModal()
         }
 
         binding.btnDownloadFull.setOnClickListener {
-            openArticleUrl()
+            showActionsModal()
+        }
+
+        binding.cardArticleDownload.setOnClickListener {
+            showActionsModal()
         }
     }
 
-    private fun openArticleUrl() {
-        val url = article?.url
-        if (!url.isNullOrEmpty()) {
-            try {
-                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
-            } catch (e: Exception) {
-                Toast.makeText(this, "Cannot open URL", Toast.LENGTH_SHORT).show()
-            }
-        } else {
-            Toast.makeText(this, "Article URL is not available", Toast.LENGTH_SHORT).show()
+    private fun showActionsModal() {
+        val currentArticle = viewModel.uiState.value.article ?: return
+        val bottomSheet = ArticleActionsBottomSheet.newInstance(currentArticle) {
+            viewModel.toggleBookmark()
         }
+        bottomSheet.show(supportFragmentManager, ArticleActionsBottomSheet.TAG)
+    }
+
+    private fun openWebUrl(url: String) {
+        try {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+        } catch (e: Exception) {
+            Toast.makeText(this, getString(R.string.detail_cannot_open_url), Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun shareArticleText(title: String, url: String) {
+        val shareText = "$title\n$url"
+        val sendIntent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, shareText)
+            type = "text/plain"
+        }
+        startActivity(Intent.createChooser(sendIntent, getString(R.string.detail_share_chooser_title)))
     }
 
     companion object {
