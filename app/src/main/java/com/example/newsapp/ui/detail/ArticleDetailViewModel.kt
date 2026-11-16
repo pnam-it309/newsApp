@@ -3,6 +3,7 @@ package com.example.newsapp.ui.detail
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.newsapp.R
 import com.example.newsapp.data.local.AppDatabase
 import com.example.newsapp.data.repository.NewsRepository
 import com.example.newsapp.data.repository.NewsRepositoryImpl
@@ -61,7 +62,12 @@ class ArticleDetailViewModel(
     fun toggleBookmark() {
         val currentArticle = _uiState.value.article ?: return
         val newSavedState = !_uiState.value.isSaved
-        val msg = if (newSavedState) "Đã lưu bài viết vào RoomDB" else "Đã bỏ lưu bài viết"
+        val context = getApplication<Application>()
+        val msg = if (newSavedState) {
+            context.getString(R.string.msg_bookmark_saved)
+        } else {
+            context.getString(R.string.msg_bookmark_removed)
+        }
 
         _uiState.update {
             it.copy(
@@ -88,21 +94,23 @@ class ArticleDetailViewModel(
         if (!url.isNullOrEmpty()) {
             _uiState.update { it.copy(openUrlEvent = url) }
         } else {
-            _uiState.update { it.copy(userMessage = "Liên kết bài viết không khả dụng") }
+            val context = getApplication<Application>()
+            _uiState.update { it.copy(userMessage = context.getString(R.string.detail_url_unavailable)) }
         }
     }
 
     fun onCopyLinkClicked() {
         val url = _uiState.value.article?.url
+        val context = getApplication<Application>()
         if (!url.isNullOrEmpty()) {
             _uiState.update {
                 it.copy(
                     copyLinkEvent = url,
-                    userMessage = "Đã sao chép liên kết vào bộ nhớ tạm"
+                    userMessage = context.getString(R.string.msg_link_copied)
                 )
             }
         } else {
-            _uiState.update { it.copy(userMessage = "Liên kết bài viết không khả dụng") }
+            _uiState.update { it.copy(userMessage = context.getString(R.string.detail_url_unavailable)) }
         }
     }
 
@@ -122,4 +130,3 @@ class ArticleDetailViewModel(
         _uiState.update { it.copy(copyLinkEvent = null) }
     }
 }
-

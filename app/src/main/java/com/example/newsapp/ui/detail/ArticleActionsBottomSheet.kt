@@ -46,28 +46,28 @@ class ArticleActionsBottomSheet : BottomSheetDialogFragment() {
         binding.tvModalArticleTitle.text = article?.title ?: getString(R.string.default_article_title)
 
         binding.layoutActionOpenBrowser.setOnClickListener {
-            dismiss()
             openUrl(article?.url)
+            dismiss()
         }
 
         binding.layoutActionCopyLink.setOnClickListener {
-            dismiss()
             copyLinkToClipboard(article?.url)
+            dismiss()
         }
 
         binding.layoutActionShare.setOnClickListener {
-            dismiss()
             shareArticle(article?.title, article?.url)
+            dismiss()
         }
 
         binding.layoutActionBookmark.setOnClickListener {
-            dismiss()
             onBookmarkToggle?.invoke()
+            dismiss()
         }
 
         binding.layoutActionViewImage.setOnClickListener {
-            dismiss()
             openUrl(article?.imageUrl)
+            dismiss()
         }
 
         binding.btnModalClose.setOnClickListener {
@@ -76,29 +76,32 @@ class ArticleActionsBottomSheet : BottomSheetDialogFragment() {
     }
 
     private fun openUrl(url: String?) {
+        val ctx = context ?: return
         if (!url.isNullOrEmpty()) {
             try {
                 startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
             } catch (e: Exception) {
-                Toast.makeText(requireContext(), getString(R.string.detail_cannot_open_url), Toast.LENGTH_SHORT).show()
+                Toast.makeText(ctx, getString(R.string.detail_cannot_open_url), Toast.LENGTH_SHORT).show()
             }
         } else {
-            Toast.makeText(requireContext(), getString(R.string.detail_url_unavailable), Toast.LENGTH_SHORT).show()
+            Toast.makeText(ctx, getString(R.string.detail_url_unavailable), Toast.LENGTH_SHORT).show()
         }
     }
 
     private fun copyLinkToClipboard(url: String?) {
+        val ctx = context ?: return
         if (!url.isNullOrEmpty()) {
-            val clipboard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clipboard = ctx.getSystemService(Context.CLIPBOARD_SERVICE) as? ClipboardManager
             val clip = ClipData.newPlainText("Article URL", url)
-            clipboard.setPrimaryClip(clip)
-            Toast.makeText(requireContext(), getString(R.string.msg_link_copied), Toast.LENGTH_SHORT).show()
+            clipboard?.setPrimaryClip(clip)
+            Toast.makeText(ctx, getString(R.string.msg_link_copied), Toast.LENGTH_SHORT).show()
         } else {
-            Toast.makeText(requireContext(), getString(R.string.detail_url_unavailable), Toast.LENGTH_SHORT).show()
+            Toast.makeText(ctx, getString(R.string.detail_url_unavailable), Toast.LENGTH_SHORT).show()
         }
     }
 
     private fun shareArticle(title: String?, url: String?) {
+        val ctx = context ?: return
         val shareText = "${title.orEmpty()}\n${url.orEmpty()}".trim()
         val sendIntent = Intent().apply {
             action = Intent.ACTION_SEND
@@ -127,4 +130,3 @@ class ArticleActionsBottomSheet : BottomSheetDialogFragment() {
         }
     }
 }
-
