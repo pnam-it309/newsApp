@@ -58,8 +58,8 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:background="@drawable/bg_rounded_circle_trans"
-                    android:contentDescription="@string/app_bar_logo_desc"
-                    android:src="@android:drawable/ic_menu_revert"
+                    android:contentDescription="@string/btn_back_desc"
+                    android:src="@drawable/ic_arrow_back"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:tint="@color/white" />
@@ -71,8 +71,8 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
                     android:background="@drawable/bg_rounded_circle_trans"
-                    android:contentDescription="@string/app_bar_logo_desc"
-                    android:src="@android:drawable/ic_menu_save"
+                    android:contentDescription="@string/btn_open_web_desc"
+                    android:src="@drawable/ic_open_in_browser"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:tint="@color/white" />
@@ -85,7 +85,7 @@
                     android:layout_marginEnd="8dp"
                     android:background="@drawable/bg_rounded_circle_trans"
                     android:contentDescription="@string/bookmark_desc"
-                    android:src="@android:drawable/btn_star_big_off"
+                    android:src="@drawable/ic_bookmark"
                     app:layout_constraintEnd_toStartOf="@id/btnDownload"
                     app:layout_constraintTop_toTopOf="parent"
                     app:tint="@color/white" />
@@ -97,85 +97,116 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="8dp"
                     android:background="@drawable/bg_rounded_circle_trans"
-                    android:contentDescription="@string/app_bar_logo_desc"
-                    android:src="@android:drawable/ic_menu_share"
+                    android:contentDescription="@string/btn_share_desc"
+                    android:src="@drawable/ic_share"
                     app:layout_constraintEnd_toStartOf="@id/btnBookmark"
                     app:layout_constraintTop_toTopOf="parent"
                     app:tint="@color/white" />
 
-                <!-- Bottom Captions -->
+                <!-- Hero Bottom Category Pill & Caption -->
                 <TextView
                     android:id="@+id/tvHeroCategory"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginStart="20dp"
                     android:layout_marginBottom="8dp"
-                    android:background="@drawable/bg_badge_red"
+                    android:background="@drawable/bg_rounded_green"
                     android:paddingHorizontal="10dp"
                     android:paddingVertical="4dp"
+                    android:text="TECH"
                     android:textColor="@color/white"
                     android:textSize="10sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toTopOf="@id/tvHeroCaption"
-                    app:layout_constraintStart_toStartOf="parent"
-                    tools:text="CLIMATE" />
+                    app:layout_constraintStart_toStartOf="parent" />
 
                 <TextView
                     android:id="@+id/tvHeroCaption"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
-                    android:layout_marginBottom="16dp"
-                    android:textColor="@color/text_light"
-                    android:textSize="12sp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:text="@string/default_article_title"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    tools:text="Wind turbines across the mountain ranges of central Europe." />
+                    app:layout_constraintStart_toStartOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 
-        <!-- Body Section -->
+        <!-- Category Badge & Live Tag -->
         <TextView
             android:id="@+id/tvDetailCategory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:text="TECHNOLOGY"
             android:textColor="@color/primary_green"
             android:textSize="12sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cardArticleHero"
-            tools:text="POLITICS" />
+            app:layout_constraintTop_toBottomOf="@id/cardArticleHero" />
 
+        <TextView
+            android:id="@+id/tvLiveBadge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/bg_badge_red"
+            android:paddingHorizontal="6dp"
+            android:paddingVertical="2dp"
+            android:text="• LIVE REPORT"
+            android:textColor="@color/white"
+            android:textSize="9sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/tvDetailCategory"
+            app:layout_constraintStart_toEndOf="@id/tvDetailCategory"
+            app:layout_constraintTop_toTopOf="@id/tvDetailCategory" />
+
+        <!-- Main Title -->
         <TextView
             android:id="@+id/tvDetailTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="20dp"
+            android:lineSpacingExtra="4dp"
+            android:text="@string/default_article_title"
             android:textColor="@color/text_primary"
-            android:textSize="26sp"
+            android:textSize="22sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvDetailCategory"
-            tools:text="Global Climate Summit Reaches Historic Agreement" />
+            app:layout_constraintTop_toBottomOf="@id/tvDetailCategory" />
 
-        <!-- Author / Meta Row -->
-        <ImageView
-            android:id="@+id/imgAuthorAvatar"
-            android:layout_width="44dp"
-            android:layout_height="44dp"
-            android:layout_marginStart="16dp"
+        <!-- Author & Date Section -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardAuthor"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="16dp"
-            android:contentDescription="@string/app_bar_logo_desc"
-            android:src="@android:drawable/ic_menu_myplaces"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="0dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvDetailTitle"
-            app:tint="@color/primary_green" />
+            app:layout_constraintTop_toBottomOf="@id/tvDetailTitle">
+
+            <ImageView
+                android:id="@+id/imgAuthor"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/profile_name"
+                android:scaleType="centerCrop"
+                android:src="@android:drawable/ic_menu_myplaces" />
+        </androidx.cardview.widget.CardView>
 
         <TextView
             android:id="@+id/tvAuthorName"
@@ -183,78 +214,82 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:layout_marginEnd="8dp"
+            android:text="@string/default_author"
             android:textColor="@color/text_primary"
             android:textSize="14sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@id/tvAuthorRole"
             app:layout_constraintEnd_toStartOf="@id/tvArticleMetaInfo"
-            app:layout_constraintStart_toEndOf="@id/imgAuthorAvatar"
-            app:layout_constraintTop_toTopOf="@id/imgAuthorAvatar"
-            tools:text="Maya Chen" />
+            app:layout_constraintStart_toEndOf="@id/cardAuthor"
+            app:layout_constraintTop_toTopOf="@id/cardAuthor" />
 
         <TextView
             android:id="@+id/tvAuthorRole"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
+            android:layout_marginTop="2dp"
             android:layout_marginEnd="8dp"
-            android:textColor="@color/text_muted"
+            android:text="@string/default_author_role"
+            android:textColor="@color/text_secondary"
             android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="@id/imgAuthorAvatar"
             app:layout_constraintEnd_toStartOf="@id/tvArticleMetaInfo"
-            app:layout_constraintStart_toEndOf="@id/imgAuthorAvatar"
-            app:layout_constraintTop_toBottomOf="@id/tvAuthorName"
-            tools:text="Senior Environmental Journalist" />
+            app:layout_constraintStart_toEndOf="@id/cardAuthor"
+            app:layout_constraintTop_toBottomOf="@id/tvAuthorName" />
 
         <TextView
             android:id="@+id/tvArticleMetaInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="20dp"
             android:gravity="end"
-            android:textColor="@color/primary_green"
+            android:text="NewsAPI\nJust now"
+            android:textColor="@color/text_muted"
             android:textSize="12sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@id/imgAuthorAvatar"
+            app:layout_constraintBottom_toBottomOf="@id/cardAuthor"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/imgAuthorAvatar"
-            tools:text="Reuters\n12 min ago" />
+            app:layout_constraintTop_toTopOf="@id/cardAuthor" />
 
-        <!-- Divider -->
+        <!-- Divider Line -->
         <View
-            android:id="@+id/viewDivider"
+            android:id="@+id/dividerMeta"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_marginHorizontal="16dp"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="16dp"
+            android:layout_marginEnd="20dp"
             android:background="@color/divider_line"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/imgAuthorAvatar" />
+            app:layout_constraintTop_toBottomOf="@id/cardAuthor" />
 
-        <!-- Article Body -->
+        <!-- Article Body Content -->
         <TextView
             android:id="@+id/tvArticleBody"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
             android:lineSpacingExtra="6dp"
-            android:textColor="@color/text_dark"
-            android:textSize="16sp"
+            android:text="@string/detail_no_body_fallback"
+            android:textColor="@color/text_primary"
+            android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/viewDivider"
-            tools:text="World leaders have concluded a historic climate agreement after intensive negotiations spanning several days." />
+            app:layout_constraintTop_toBottomOf="@id/dividerMeta" />
 
-        <!-- Download Card -->
+        <!-- Bottom Actions / Media Download Card -->
         <androidx.cardview.widget.CardView
             android:id="@+id/cardArticleDownload"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="24dp"
-            app:cardBackgroundColor="@color/card_green_bg"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="28dp"
+            android:layout_marginEnd="20dp"
+            android:backgroundTint="@color/bg_input"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
             app:cardCornerRadius="20dp"
             app:cardElevation="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -272,7 +307,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
-                    android:text="OFFLINE MEDIA"
+                    android:text="@string/detail_offline_tag"
                     android:textColor="@color/primary_green"
                     android:textSize="11sp"
                     android:textStyle="bold"
@@ -286,7 +321,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:layout_marginEnd="8dp"
-                    android:text="Download Article Media"
+                    android:text="@string/detail_download_title"
                     android:textColor="@color/text_primary"
                     android:textSize="18sp"
                     android:textStyle="bold"
@@ -298,8 +333,8 @@
                     android:id="@+id/imgDownloadIcon"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:contentDescription="@string/app_bar_logo_desc"
-                    android:src="@android:drawable/ic_menu_save"
+                    android:contentDescription="@string/btn_open_web_desc"
+                    android:src="@drawable/ic_open_in_browser"
                     app:layout_constraintBottom_toBottomOf="@id/tvDownloadTitle"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@id/tvDownloadTag"
@@ -310,7 +345,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="Save the full-resolution cover image and a reader-friendly PDF for offline access."
+                    android:text="@string/detail_download_desc"
                     android:textColor="@color/text_secondary"
                     android:textSize="13sp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -324,7 +359,7 @@
                     android:layout_height="48dp"
                     android:layout_marginTop="16dp"
                     android:backgroundTint="@color/primary_green"
-                    android:text="Download Full Resolution Image / PDF"
+                    android:text="@string/detail_btn_download_full"
                     android:textColor="@color/white"
                     android:textSize="14sp"
                     app:cornerRadius="24dp"
@@ -338,7 +373,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:gravity="center"
-                    android:text="9.6 MB total • Available offline"
+                    android:text="@string/detail_download_meta"
                     android:textColor="@color/text_muted"
                     android:textSize="11sp"
                     app:layout_constraintBottom_toBottomOf="parent"

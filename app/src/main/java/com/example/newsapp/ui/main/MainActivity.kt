@@ -1,5 +1,6 @@
 package com.example.newsapp.ui.main
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.SearchView
 import android.widget.Toast
@@ -14,6 +15,7 @@ import com.example.newsapp.R
 import com.example.newsapp.databinding.ActivityHomeBinding
 import com.example.newsapp.ui.adapter.NewsAdapter
 import com.example.newsapp.ui.base.BaseActivity
+import com.example.newsapp.ui.detail.ArticleDetailActivity
 import com.example.newsapp.ui.entity.Article
 import kotlinx.coroutines.launch
 
@@ -25,7 +27,7 @@ class MainActivity : BaseActivity() {
     private val newsAdapter: NewsAdapter by lazy {
         NewsAdapter().apply {
             setOnItemClickListener { article ->
-                Toast.makeText(this@MainActivity, article.title, Toast.LENGTH_SHORT).show()
+                openArticleDetail(article)
             }
         }
     }
@@ -107,8 +109,15 @@ class MainActivity : BaseActivity() {
         topStoryBinding.btnBookmarkTopStory.setImageResource(iconRes)
 
         topStoryBinding.cardTopStory.setOnClickListener {
-            Toast.makeText(this, article.title, Toast.LENGTH_SHORT).show()
+            openArticleDetail(article)
         }
+    }
+
+    private fun openArticleDetail(article: Article) {
+        val intent = Intent(this, ArticleDetailActivity::class.java).apply {
+            putExtra(ArticleDetailActivity.EXTRA_ARTICLE, article)
+        }
+        startActivity(intent)
     }
 
     private fun setupTopStoryBookmarkClick() {
