@@ -49,6 +49,8 @@
     <string name="detail_btn_download_full">Tùy chọn bài viết</string>
     <string name="detail_download_meta">Khả dụng ngoại tuyến • RoomDB</string>
     <string name="detail_share_chooser_title">Chia sẻ bài viết qua</string>
+    <string name="detail_meta_format">%1$s\n%2$s</string>
+    <string name="detail_share_text_format">%1$s\n%2$s</string>
     <string name="detail_cannot_open_url">Không thể mở liên kết bài viết</string>
     <string name="detail_url_unavailable">Liên kết bài viết không khả dụng</string>
     <string name="detail_no_body_fallback">Nội dung chi tiết đang được cập nhật từ nguồn tin. Vui lòng bấm vào nút bên dưới để đọc bài viết gốc đầy đủ trên trang báo.</string>
@@ -75,4 +77,25 @@
     <string name="splash_tagline">Your Daily News Companion</string>
     <string name="splash_version">NewsFlash v1.0</string>
     <string name="saved_subtitle">Your bookmarked articles for offline reading</string>
+
+    <!-- Downloads Screen Strings -->
+    <string name="downloads_media_library">MEDIA LIBRARY</string>
+    <string name="downloads_title">Downloads</string>
+    <string name="downloads_clear_history">Clear history</string>
+    <string name="downloads_storage_used">1.2 GB / 32 GB used</string>
+    <string name="downloads_storage_label">Storage</string>
+    <string name="downloads_storage_type">Downloads</string>
+    <string name="downloads_storage_available">30.8 GB available</string>
+    <string name="downloads_active_section">Active downloads</string>
+    <string name="downloads_pause_all">Pause all</string>
+    <string name="downloads_resume_all">Resume all</string>
+    <string name="downloads_btn_pause">Pause</string>
+    <string name="downloads_btn_resume">Resume</string>
+    <string name="downloads_btn_cancel">Cancel</string>
+    <string name="downloads_completed_section">Completed</string>
+    <string name="downloads_sort_newest">Newest first</string>
+    <string name="downloads_size_progress_format">%1$.1f MB of %2$.1f MB</string>
+    <string name="downloads_speed_paused">0.0 MB/s (Paused)</string>
+    <string name="nav_downloads">Downloads</string>
+    <string name="nav_settings">Settings</string>
 </resources>

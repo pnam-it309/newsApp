@@ -9,15 +9,10 @@ import com.example.newsapp.ui.main.MainActivity
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class SplashActivity : BaseActivity() {
-
-    private lateinit var binding: ActivitySplashBinding
+class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding::inflate) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        hideSystemNavigationBar()
-        binding = ActivitySplashBinding.inflate(layoutInflater)
-        setContentView(binding.root)
 
         lifecycleScope.launch {
             delay(1500)

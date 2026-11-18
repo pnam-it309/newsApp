@@ -24,4 +24,27 @@
     <color name="green_lighter">#A7F3D0</color>
     <color name="overlay_black_40">#66000000</color>
     <color name="white_trans_20">#33FFFFFF</color>
+
+    <!-- Downloads Screen Colors -->
+    <color name="download_header_bg">#153928</color>
+    <color name="download_storage_card_bg">#1E4734</color>
+    <color name="download_storage_icon_bg">#285942</color>
+    <color name="download_header_subtitle">#85C3A5</color>
+    <color name="download_storage_meta">#95B8A4</color>
+    <color name="download_accent_green">#22C55E</color>
+    <color name="download_progress_bg">#2E5643</color>
+    <color name="download_badge_active_bg">#DDF5E6</color>
+    <color name="download_badge_active_text">#15803D</color>
+    <color name="download_badge_completed_bg">#E2E8F0</color>
+    <color name="download_badge_completed_text">#475569</color>
+    <color name="download_btn_pause_bg">#E8F6ED</color>
+    <color name="download_btn_cancel_bg">#FEE2E2</color>
+    <color name="download_badge_pdf_bg">#FEE2E2</color>
+    <color name="download_badge_pdf_text">#B91C1C</color>
+    <color name="download_badge_html_bg">#FEF3C7</color>
+    <color name="download_badge_html_text">#B45309</color>
+    <color name="download_badge_jpg_bg">#E0F2FE</color>
+    <color name="download_badge_jpg_text">#0369A1</color>
+    <color name="download_nav_pill_bg">#DCFCE7</color>
+    <color name="download_bg_gray">#F6F8F7</color>
 </resources>
