@@ -2,11 +2,13 @@ package com.example.newsapp.ui.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -16,66 +18,66 @@ import com.example.newsapp.databinding.ActivityHomeBinding
 import com.example.newsapp.ui.adapter.NewsAdapter
 import com.example.newsapp.ui.base.BaseActivity
 import com.example.newsapp.ui.detail.ArticleDetailActivity
+import com.example.newsapp.ui.downloads.DownloadsActivity
 import com.example.newsapp.ui.entity.Article
 import kotlinx.coroutines.launch
 
-class MainActivity : BaseActivity() {
+class MainActivity : BaseActivity<ActivityHomeBinding>(ActivityHomeBinding::inflate) {
 
-    private val binding: ActivityHomeBinding by lazy {
-        ActivityHomeBinding.inflate(layoutInflater)
-    }
-    private val newsAdapter: NewsAdapter by lazy {
+    private val viewModel: NewsViewModel by viewModels()
+
+    private val newsAdapter by lazy {
         NewsAdapter().apply {
-            setOnItemClickListener { article ->
-                openArticleDetail(article)
-            }
+            setOnItemClickListener { article -> openArticleDetail(article) }
         }
     }
-    private val viewModel: NewsViewModel by viewModels()
+
+    private val categoryButtons by lazy {
+        with(binding.includedCategoryBar) {
+            mapOf(
+                "ALL" to btnCatGeneral,
+                "TECH" to btnCatTech,
+                "BUSINESS" to btnCatBusiness,
+                "SPORTS" to btnCatSports,
+                "ENTERTAINMENT" to btnCatEntertainment
+            )
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        hideSystemNavigationBar()
-        setContentView(binding.root)
 
-        setupRecyclerView()
+        binding.includedNewsSection.rvNewsList.adapter = newsAdapter
         setupCategoryBar()
         setupSearchView()
         setupThemeToggle()
         setupBottomNavigation()
-        setupTopStoryBookmarkClick()
+        binding.includedTopStory.btnBookmarkTopStory.setOnClickListener {
+            viewModel.toggleTopStoryBookmark()
+        }
 
         observeUiState()
-    }
-
-    private fun setupRecyclerView() {
-        binding.includedNewsSection.rvNewsList.adapter = newsAdapter
     }
 
     private fun observeUiState() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.uiState.collect { state ->
-                    renderUiState(state)
-                }
+                viewModel.uiState.collect { renderUiState(it) }
             }
         }
     }
 
     private fun renderUiState(state: NewsUiState) {
         val isSearching = state.searchQuery.isNotBlank()
-        if (isSearching) {
-            binding.includedTopStory.root.visibility = android.view.View.GONE
-        } else {
-            binding.includedTopStory.root.visibility = android.view.View.VISIBLE
-            state.topStory?.let { topStory ->
-                setupTopStoryUi(topStory, state.isTopStoryBookmarked)
-            }
+        binding.includedTopStory.root.isVisible = !isSearching
+
+        if (!isSearching) {
+            state.topStory?.let { setupTopStoryUi(it, state.isTopStoryBookmarked) }
         }
 
         newsAdapter.submitList(state.articles)
-        binding.includedNewsSection.tvStoriesCount.text = "${state.articles.size} Stories"
-
+        binding.includedNewsSection.tvStoriesCount.text =
+            getString(R.string.news_stories_count_format, state.articles.size)
         updateCategoryButtonStyles(state.selectedCategory)
 
         state.userMessage?.let { msg ->
@@ -85,31 +87,22 @@ class MainActivity : BaseActivity() {
     }
 
     private fun setupTopStoryUi(article: Article, isBookmarked: Boolean) {
-        val topStoryBinding = binding.includedTopStory
-        topStoryBinding.tvTopStoryTitle.text = article.title.ifBlank { getString(R.string.default_article_title) }
-        val sourceText = article.source.ifBlank { getString(R.string.default_source) }
-        val timeText = article.time.ifBlank { getString(R.string.default_time_latest) }
-        topStoryBinding.tvTopStoryMeta.text = "$sourceText • $timeText"
+        with(binding.includedTopStory) {
+            tvTopStoryTitle.text = article.title.ifBlank { getString(R.string.default_article_title) }
+            val source = article.source.ifBlank { getString(R.string.default_source) }
+            val time = article.time.ifBlank { getString(R.string.default_time_latest) }
+            tvTopStoryMeta.text = "$source • $time"
 
-        if (!article.imageUrl.isNullOrEmpty()) {
-            topStoryBinding.imgTopStory.load(article.imageUrl) {
+            imgTopStory.load(article.imageUrl) {
                 crossfade(true)
                 placeholder(android.R.drawable.ic_menu_gallery)
                 error(android.R.drawable.ic_menu_gallery)
             }
-        } else {
-            topStoryBinding.imgTopStory.setImageResource(android.R.drawable.ic_menu_gallery)
-        }
 
-        val iconRes = if (isBookmarked) {
-            android.R.drawable.btn_star_big_on
-        } else {
-            android.R.drawable.btn_star_big_off
-        }
-        topStoryBinding.btnBookmarkTopStory.setImageResource(iconRes)
-
-        topStoryBinding.cardTopStory.setOnClickListener {
-            openArticleDetail(article)
+            btnBookmarkTopStory.setImageResource(
+                if (isBookmarked) android.R.drawable.btn_star_big_on else android.R.drawable.btn_star_big_off
+            )
+            cardTopStory.setOnClickListener { openArticleDetail(article) }
         }
     }
 
@@ -120,95 +113,67 @@ class MainActivity : BaseActivity() {
         startActivity(intent)
     }
 
-    private fun setupTopStoryBookmarkClick() {
-        binding.includedTopStory.btnBookmarkTopStory.setOnClickListener {
-            viewModel.toggleTopStoryBookmark()
-        }
-    }
-
     private fun setupCategoryBar() {
-        val categoryBar = binding.includedCategoryBar
-        val buttons = mapOf(
-            "ALL" to categoryBar.btnCatGeneral,
-            "TECH" to categoryBar.btnCatTech,
-            "BUSINESS" to categoryBar.btnCatBusiness,
-            "SPORTS" to categoryBar.btnCatSports,
-            "ENTERTAINMENT" to categoryBar.btnCatEntertainment
-        )
-
-        buttons.forEach { (catKey, button) ->
+        categoryButtons.forEach { (catKey, button) ->
             button.setOnClickListener {
-                binding.includedSearchRow.searchView.setQuery("", false)
-                binding.includedSearchRow.searchView.clearFocus()
+                binding.includedSearchRow.searchView.apply {
+                    setQuery("", false)
+                    clearFocus()
+                }
                 viewModel.onCategorySelected(catKey)
             }
         }
     }
 
     private fun updateCategoryButtonStyles(selectedKey: String) {
-        val categoryBar = binding.includedCategoryBar
-        val buttons = mapOf(
-            "ALL" to categoryBar.btnCatGeneral,
-            "TECH" to categoryBar.btnCatTech,
-            "BUSINESS" to categoryBar.btnCatBusiness,
-            "SPORTS" to categoryBar.btnCatSports,
-            "ENTERTAINMENT" to categoryBar.btnCatEntertainment
-        )
+        val activeColor = ContextCompat.getColor(this, R.color.white)
+        val inactiveColor = ContextCompat.getColor(this, R.color.text_secondary)
 
-        buttons.forEach { (key, button) ->
-            if (key == selectedKey) {
-                button.setBackgroundResource(R.drawable.bg_rounded_green)
-                button.setTextColor(ContextCompat.getColor(this, R.color.white))
-            } else {
-                button.setBackgroundResource(R.drawable.bg_rounded_input)
-                button.setTextColor(ContextCompat.getColor(this, R.color.text_secondary))
-            }
+        categoryButtons.forEach { (key, button) ->
+            val isSelected = key == selectedKey
+            button.setBackgroundResource(if (isSelected) R.drawable.bg_rounded_green else R.drawable.bg_rounded_input)
+            button.setTextColor(if (isSelected) activeColor else inactiveColor)
         }
     }
 
     private fun setupSearchView() {
-        val searchView = binding.includedSearchRow.searchView
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                viewModel.onSearchQueryChanged(query)
-                searchView.clearFocus()
-                return true
-            }
+        binding.includedSearchRow.searchView.apply {
+            setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    clearFocus()
+                    return true
+                }
 
-            override fun onQueryTextChange(newText: String?): Boolean {
-                viewModel.onSearchQueryChanged(newText)
-                return true
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    viewModel.onSearchQueryChanged(newText)
+                    return true
+                }
+            })
+            setOnCloseListener {
+                viewModel.onSearchQueryChanged("")
+                false
             }
-        })
-        searchView.setOnCloseListener {
-            viewModel.onSearchQueryChanged("")
-            false
         }
     }
 
     private fun setupThemeToggle() {
         binding.includedHeaderBar.btnThemeToggle.setOnClickListener {
-            val currentMode = AppCompatDelegate.getDefaultNightMode()
-            if (currentMode == AppCompatDelegate.MODE_NIGHT_YES) {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                Toast.makeText(this, "Light Mode Enabled", Toast.LENGTH_SHORT).show()
-            } else {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                Toast.makeText(this, "Dark Mode Enabled", Toast.LENGTH_SHORT).show()
-            }
+            val isNight = AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES
+            val newMode = if (isNight) AppCompatDelegate.MODE_NIGHT_NO else AppCompatDelegate.MODE_NIGHT_YES
+            AppCompatDelegate.setDefaultNightMode(newMode)
+            val msgResId = if (isNight) R.string.msg_light_mode_enabled else R.string.msg_dark_mode_enabled
+            Toast.makeText(this, getString(msgResId), Toast.LENGTH_SHORT).show()
         }
     }
 
     private fun setupBottomNavigation() {
-        val bottomNav = binding.includedBottomNav
-        bottomNav.btnNavHome.setOnClickListener {
-            Toast.makeText(this, "Home Tab Selected", Toast.LENGTH_SHORT).show()
-        }
-        bottomNav.btnNavSaved.setOnClickListener {
-            Toast.makeText(this, "Saved Tab Selected", Toast.LENGTH_SHORT).show()
-        }
-        bottomNav.btnNavProfile.setOnClickListener {
-            Toast.makeText(this, "Profile Tab Selected", Toast.LENGTH_SHORT).show()
+        with(binding.includedBottomNav) {
+            btnNavSaved.setOnClickListener {
+                startActivity(Intent(this@MainActivity, DownloadsActivity::class.java))
+            }
+            btnNavProfile.setOnClickListener {
+                Toast.makeText(this@MainActivity, getString(R.string.nav_profile), Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }

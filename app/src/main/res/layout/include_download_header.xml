@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/headerDownloads"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_header_downloads"
+    android:paddingHorizontal="20dp"
+    android:paddingTop="20dp"
+    android:paddingBottom="24dp">
+
+    <TextView
+        android:id="@+id/tvHeaderSubtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:letterSpacing="0.08"
+        android:text="@string/downloads_media_library"
+        android:textColor="@color/download_header_subtitle"
+        android:textSize="11sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvHeaderTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="@string/downloads_title"
+        android:textColor="@color/white"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvHeaderSubtitle" />
+
+    <!-- Clear History Button -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/btnClearHistory"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:clickable="true"
+        android:focusable="true"
+        app:cardBackgroundColor="#224D38"
+        app:cardCornerRadius="18dp"
+        app:cardElevation="0dp"
+        app:layout_constraintBottom_toBottomOf="@id/tvHeaderTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tvHeaderSubtitle"
+        app:strokeColor="#35684D"
+        app:strokeWidth="1dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="12dp">
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:contentDescription="@string/downloads_clear_history"
+                android:src="@drawable/ic_delete"
+                app:tint="#D0E3D9" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:text="@string/downloads_clear_history"
+                android:textColor="#E2EFE7"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Storage Card -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardStorageInfo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:cardBackgroundColor="@color/download_storage_card_bg"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvHeaderTitle"
+        app:strokeColor="#2B5740"
+        app:strokeWidth="1dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <!-- Disk Icon Box -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/boxStorageIcon"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                app:cardBackgroundColor="@color/download_storage_icon_bg"
+                app:cardCornerRadius="14dp"
+                app:cardElevation="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/downloads_storage_label"
+                    android:src="@drawable/ic_database"
+                    app:tint="#A7F3D0" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Usage Numbers -->
+            <TextView
+                android:id="@+id/tvStorageUsage"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                android:text="@string/downloads_storage_used"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@id/tvStorageLabel"
+                app:layout_constraintStart_toEndOf="@id/boxStorageIcon"
+                app:layout_constraintTop_toTopOf="@id/boxStorageIcon" />
+
+            <TextView
+                android:id="@+id/tvStorageLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/downloads_storage_label"
+                android:textColor="@color/download_storage_meta"
+                android:textSize="11sp"
+                app:layout_constraintBaseline_toBaselineOf="@id/tvStorageUsage"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <!-- Storage Progress Bar -->
+            <ProgressBar
+                android:id="@+id/pbStorage"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dp"
+                android:layout_height="6dp"
+                android:layout_marginStart="14dp"
+                android:layout_marginTop="8dp"
+                android:max="100"
+                android:progress="25"
+                android:progressBackgroundTint="@color/download_progress_bg"
+                android:progressTint="@color/download_accent_green"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/boxStorageIcon"
+                app:layout_constraintTop_toBottomOf="@id/tvStorageUsage" />
+
+            <!-- Bottom Status Row -->
+            <View
+                android:id="@+id/dotDownloadsIndicator"
+                android:layout_width="6dp"
+                android:layout_height="6dp"
+                android:layout_marginStart="14dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_rounded_circle"
+                android:backgroundTint="@color/download_accent_green"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/boxStorageIcon"
+                app:layout_constraintTop_toBottomOf="@id/pbStorage" />
+
+            <TextView
+                android:id="@+id/tvStorageType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:text="@string/downloads_storage_type"
+                android:textColor="@color/download_header_subtitle"
+                android:textSize="11sp"
+                app:layout_constraintBottom_toBottomOf="@id/dotDownloadsIndicator"
+                app:layout_constraintStart_toEndOf="@id/dotDownloadsIndicator"
+                app:layout_constraintTop_toTopOf="@id/dotDownloadsIndicator" />
+
+            <TextView
+                android:id="@+id/tvStorageAvailable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/downloads_storage_available"
+                android:textColor="@color/download_storage_meta"
+                android:textSize="11sp"
+                app:layout_constraintBaseline_toBaselineOf="@id/tvStorageType"
+                app:layout_constraintEnd_toEndOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

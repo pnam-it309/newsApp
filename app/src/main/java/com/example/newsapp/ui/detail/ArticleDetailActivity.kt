@@ -16,17 +16,12 @@ import com.example.newsapp.ui.base.BaseActivity
 import com.example.newsapp.ui.entity.Article
 import kotlinx.coroutines.launch
 
-class ArticleDetailActivity : BaseActivity() {
+class ArticleDetailActivity : BaseActivity<ActivityArticleDetailBinding>(ActivityArticleDetailBinding::inflate) {
 
-    private val binding: ActivityArticleDetailBinding by lazy {
-        ActivityArticleDetailBinding.inflate(layoutInflater)
-    }
     private val viewModel: ArticleDetailViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        hideSystemNavigationBar()
-        setContentView(binding.root)
 
         val article = intent.extras?.let { bundle ->
             BundleCompat.getParcelable(bundle, EXTRA_ARTICLE, Article::class.java)
@@ -53,19 +48,22 @@ class ArticleDetailActivity : BaseActivity() {
 
         val defaultTitle = getString(R.string.default_article_title)
         val defaultAuthor = getString(R.string.default_author)
+        val defaultAuthorRole = getString(R.string.default_author_role)
         val defaultSource = getString(R.string.default_source)
         val defaultTime = getString(R.string.default_time_latest)
+        val defaultCategory = getString(R.string.cat_general)
 
-        binding.tvDetailCategory.text = currentArticle.category.uppercase()
-        binding.tvHeroCategory.text = currentArticle.category.uppercase()
+        val categoryText = currentArticle.category.ifBlank { defaultCategory }.uppercase()
+        binding.tvDetailCategory.text = categoryText
+        binding.tvHeroCategory.text = categoryText
         binding.tvDetailTitle.text = currentArticle.title.ifBlank { defaultTitle }
         binding.tvHeroCaption.text = currentArticle.title.ifBlank { defaultTitle }
         binding.tvAuthorName.text = currentArticle.authorName.ifBlank { defaultAuthor }
-        binding.tvAuthorRole.text = currentArticle.authorRole.ifBlank { getString(R.string.default_author_role) }
+        binding.tvAuthorRole.text = currentArticle.authorRole.ifBlank { defaultAuthorRole }
 
         val source = currentArticle.source.ifBlank { defaultSource }
         val time = currentArticle.time.ifBlank { defaultTime }
-        binding.tvArticleMetaInfo.text = "$source\n$time"
+        binding.tvArticleMetaInfo.text = getString(R.string.detail_meta_format, source, time)
 
         binding.tvArticleBody.text = if (currentArticle.body.isNotBlank()) {
             currentArticle.body
@@ -153,7 +151,7 @@ class ArticleDetailActivity : BaseActivity() {
     }
 
     private fun shareArticleText(title: String, url: String) {
-        val shareText = "$title\n$url"
+        val shareText = getString(R.string.detail_share_text_format, title, url)
         val sendIntent = Intent().apply {
             action = Intent.ACTION_SEND
             putExtra(Intent.EXTRA_TEXT, shareText)

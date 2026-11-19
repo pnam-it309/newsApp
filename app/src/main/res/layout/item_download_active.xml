@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardActiveItem"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="12dp"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="18dp"
+    app:cardElevation="0dp"
+    app:strokeColor="#EEF2F6"
+    app:strokeWidth="1dp">
+
+    <!-- Single flat ConstraintLayout - No deep nesting -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <!-- Thumbnail Image -->
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/imgActiveThumb"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/ic_launcher"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.MaterialComponents.MediumComponent" />
+
+        <!-- Format Badge -->
+        <TextView
+            android:id="@+id/tvActiveFormatBadge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_rounded_circle"
+            android:backgroundTint="#CC1E293B"
+            android:paddingHorizontal="4dp"
+            android:paddingVertical="1dp"
+            tools:text="PDF"
+            android:textColor="@color/white"
+            android:textSize="9sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/imgActiveThumb"
+            app:layout_constraintEnd_toEndOf="@id/imgActiveThumb" />
+
+        <!-- Title -->
+        <TextView
+            android:id="@+id/tvActiveTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            tools:text="Global climate accord — full report.pdf"
+            android:textColor="@color/text_dark"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/imgActiveThumb"
+            app:layout_constraintTop_toTopOf="@id/imgActiveThumb" />
+
+        <!-- File Size Info -->
+        <TextView
+            android:id="@+id/tvActiveSize"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="2dp"
+            android:text="@string/downloads_default_size_progress"
+            android:textColor="@color/text_muted"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/imgActiveThumb"
+            app:layout_constraintTop_toBottomOf="@id/tvActiveTitle" />
+
+        <!-- Speed indicator dot -->
+        <View
+            android:id="@+id/dotActiveSpeed"
+            android:layout_width="6dp"
+            android:layout_height="6dp"
+            android:layout_marginStart="12dp"
+            android:background="@drawable/bg_rounded_circle"
+            android:backgroundTint="@color/download_accent_green"
+            app:layout_constraintBottom_toBottomOf="@id/tvActiveSpeed"
+            app:layout_constraintStart_toEndOf="@id/imgActiveThumb"
+            app:layout_constraintTop_toTopOf="@id/tvActiveSpeed" />
+
+        <!-- Speed -->
+        <TextView
+            android:id="@+id/tvActiveSpeed"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="4dp"
+            tools:text="2.4 MB/s"
+            android:textColor="@color/download_badge_active_text"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@id/tvActivePercent"
+            app:layout_constraintStart_toEndOf="@id/dotActiveSpeed"
+            app:layout_constraintTop_toBottomOf="@id/tvActiveSize" />
+
+        <!-- Percent -->
+        <TextView
+            android:id="@+id/tvActivePercent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="70%"
+            android:textColor="@color/text_dark"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintBaseline_toBaselineOf="@id/tvActiveSpeed"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Progress Bar -->
+        <ProgressBar
+            android:id="@+id/pbActive"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="0dp"
+            android:layout_height="6dp"
+            android:layout_marginTop="12dp"
+            android:max="100"
+            android:progress="70"
+            android:progressBackgroundTint="#E2E8F0"
+            android:progressTint="@color/download_accent_green"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/imgActiveThumb" />
+
+        <!-- Pause / Resume Button -->
+        <LinearLayout
+            android:id="@+id/btnPauseItem"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="6dp"
+            android:background="@drawable/bg_rounded_circle"
+            android:backgroundTint="@color/download_btn_pause_bg"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toStartOf="@id/btnCancelItem"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/pbActive">
+
+            <ImageView
+                android:id="@+id/icPauseItem"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:contentDescription="@string/downloads_btn_pause"
+                android:src="@drawable/ic_pause"
+                app:tint="@color/download_badge_active_text" />
+
+            <TextView
+                android:id="@+id/tvPauseItem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:text="@string/downloads_btn_pause"
+                android:textColor="@color/download_badge_active_text"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- Cancel Button -->
+        <LinearLayout
+            android:id="@+id/btnCancelItem"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_rounded_circle"
+            android:backgroundTint="@color/download_btn_cancel_bg"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/btnPauseItem"
+            app:layout_constraintTop_toBottomOf="@id/pbActive">
+
+            <ImageView
+                android:id="@+id/icCancelItem"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:contentDescription="@string/downloads_btn_cancel"
+                android:src="@drawable/ic_close"
+                app:tint="@color/download_badge_pdf_text" />
+
+            <TextView
+                android:id="@+id/tvCancelItem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:text="@string/downloads_btn_cancel"
+                android:textColor="@color/download_badge_pdf_text"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>
