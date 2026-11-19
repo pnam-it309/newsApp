@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.newsapp.R
 import com.example.newsapp.data.local.AppDatabase
 import com.example.newsapp.data.repository.NewsRepository
 import com.example.newsapp.data.repository.NewsRepositoryImpl
@@ -57,7 +58,7 @@ class NewsViewModel(
                             isLoading = false,
                             topStory = null,
                             articles = emptyList(),
-                            userMessage = "Chưa có bài viết nào trong RoomDB"
+                            userMessage = getApplication<Application>().getString(R.string.news_msg_no_articles_room)
                         )
                     }
                 }
@@ -67,7 +68,7 @@ class NewsViewModel(
                         isLoading = false,
                         topStory = null,
                         articles = emptyList(),
-                        userMessage = error.message ?: "Lỗi tải dữ liệu"
+                        userMessage = error.message ?: getApplication<Application>().getString(R.string.news_msg_load_error)
                     )
                 }
             }
@@ -105,22 +106,24 @@ class NewsViewModel(
                         )
                     }
                 } else {
+                    val noResultsMsg = getApplication<Application>().getString(R.string.news_msg_no_search_results)
                     _uiState.update {
                         it.copy(
                             isLoading = false,
                             topStory = null,
                             articles = emptyList(),
-                            userMessage = "Không tìm thấy kết quả phù hợp"
+                            userMessage = noResultsMsg
                         )
                     }
                 }
             }.onFailure {
+                val noResultsMsg = getApplication<Application>().getString(R.string.news_msg_no_search_results)
                 _uiState.update {
                     it.copy(
                         isLoading = false,
                         topStory = null,
                         articles = emptyList(),
-                        userMessage = "Không tìm thấy kết quả phù hợp"
+                        userMessage = noResultsMsg
                     )
                 }
             }
@@ -130,7 +133,12 @@ class NewsViewModel(
     fun toggleTopStoryBookmark() {
         val currentTopStory = _uiState.value.topStory ?: return
         val newBookmarkedState = !_uiState.value.isTopStoryBookmarked
-        val msg = if (newBookmarkedState) "Đã lưu bài viết vào RoomDB" else "Đã bỏ lưu bài viết"
+        val context = getApplication<Application>()
+        val msg = if (newBookmarkedState) {
+            context.getString(R.string.msg_bookmark_saved)
+        } else {
+            context.getString(R.string.msg_bookmark_removed)
+        }
 
         _uiState.update {
             it.copy(
@@ -151,7 +159,12 @@ class NewsViewModel(
         } else {
             AppCompatDelegate.MODE_NIGHT_YES
         }
-        val msg = if (isCurrentlyDark) "Light Mode Enabled" else "Dark Mode Enabled"
+        val context = getApplication<Application>()
+        val msg = if (isCurrentlyDark) {
+            context.getString(R.string.msg_light_mode_enabled)
+        } else {
+            context.getString(R.string.msg_dark_mode_enabled)
+        }
 
         _uiState.update {
             it.copy(

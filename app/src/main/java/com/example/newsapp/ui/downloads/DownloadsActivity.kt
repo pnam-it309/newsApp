@@ -3,17 +3,22 @@ package com.example.newsapp.ui.downloads
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.ConcatAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.example.newsapp.R
 import com.example.newsapp.databinding.ActivityDownloadsBinding
+import com.example.newsapp.databinding.ItemDownloadHeaderActiveBinding
+import com.example.newsapp.databinding.ItemDownloadHeaderCompletedBinding
 import com.example.newsapp.ui.base.BaseActivity
 import com.example.newsapp.ui.detail.ArticleDetailActivity
 import com.example.newsapp.ui.main.MainActivity
-import java.util.Locale
 import kotlinx.coroutines.launch
 
 class DownloadsActivity :
@@ -21,38 +26,53 @@ class DownloadsActivity :
 
     private val viewModel: DownloadsViewModel by viewModels()
 
-    private lateinit var activeAdapter: DownloadsAdapter
-    private lateinit var completedAdapter: DownloadsAdapter
+    private val activeHeaderBinding by lazy {
+        ItemDownloadHeaderActiveBinding.inflate(layoutInflater)
+    }
+
+    private val completedHeaderBinding by lazy {
+        ItemDownloadHeaderCompletedBinding.inflate(layoutInflater)
+    }
+
+    private val activeHeaderAdapter by lazy { SingleViewAdapter(activeHeaderBinding.root) }
+    private val completedHeaderAdapter by lazy { SingleViewAdapter(completedHeaderBinding.root) }
+
+    private val activeAdapter by lazy {
+        DownloadsAdapter().apply {
+            setOnPauseClickListener { item -> viewModel.toggleItemPause(item.id) }
+            setOnCancelClickListener { item -> viewModel.cancelDownload(item.id) }
+        }
+    }
+
+    private val completedAdapter by lazy {
+        DownloadsAdapter().apply {
+            setOnItemClickListener { item -> viewModel.onCompletedItemClicked(item.id) }
+            setOnMoreClickListener { item, _ -> viewModel.deleteCompleted(item.id) }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setupRecyclerViews()
+        setupRecyclerView()
         setupListeners()
         setupBottomNav()
         observeUiState()
     }
 
-    private fun setupRecyclerViews() {
-        activeAdapter =
-            DownloadsAdapter(
-                onPauseClick = { item -> viewModel.toggleItemPause(item.id) },
-                onCancelClick = { item -> viewModel.cancelDownload(item.id) },
-            )
-        binding.rvActiveDownloads.adapter = activeAdapter
-
-        completedAdapter =
-            DownloadsAdapter(
-                onItemClick = { item -> viewModel.onCompletedItemClicked(item.id) },
-                onMoreClick = { item, _ -> viewModel.deleteCompleted(item.id) },
-            )
-        binding.rvCompletedDownloads.adapter = completedAdapter
+    private fun setupRecyclerView() {
+        val concatAdapter = ConcatAdapter(
+            activeHeaderAdapter,
+            activeAdapter,
+            completedHeaderAdapter,
+            completedAdapter
+        )
+        binding.rvDownloads.adapter = concatAdapter
     }
 
     private fun setupListeners() {
         binding.includedHeader.btnClearHistory.setOnClickListener { viewModel.clearHistory() }
-
-        binding.btnPauseAll.setOnClickListener { viewModel.togglePauseAll() }
+        activeHeaderBinding.btnPauseAll.setOnClickListener { viewModel.togglePauseAll() }
     }
 
     private fun observeUiState() {
@@ -67,30 +87,28 @@ class DownloadsActivity :
         // Active list & controls
         activeAdapter.submitList(state.activeDownloads)
         val activeCount = state.activeDownloads.size
-        binding.tvActiveCount.text = activeCount.toString()
         val hasActive = activeCount > 0
-        binding.badgeActiveCount.visibility = if (hasActive) View.VISIBLE else View.GONE
-        binding.btnPauseAll.visibility = if (hasActive) View.VISIBLE else View.GONE
-        binding.rvActiveDownloads.visibility = if (hasActive) View.VISIBLE else View.GONE
-
-        binding.btnPauseAll.text =
+        activeHeaderBinding.tvActiveCount.text = activeCount.toString()
+        activeHeaderBinding.badgeActiveCount.isVisible = hasActive
+        activeHeaderBinding.btnPauseAll.isVisible = hasActive
+        activeHeaderBinding.btnPauseAll.text =
             if (state.areAllPaused) {
                 getString(R.string.downloads_resume_all)
             } else {
                 getString(R.string.downloads_pause_all)
             }
+        activeHeaderAdapter.isVisible = hasActive
 
         // Completed list
         completedAdapter.submitList(state.completedDownloads)
         val completedCount = state.completedDownloads.size
-        binding.tvCompletedCount.text = completedCount.toString()
         val hasCompleted = completedCount > 0
-        binding.badgeCompletedCount.visibility = if (hasCompleted) View.VISIBLE else View.GONE
-        binding.cardCompletedList.visibility = if (hasCompleted) View.VISIBLE else View.GONE
+        completedHeaderBinding.tvCompletedCount.text = completedCount.toString()
+        completedHeaderBinding.badgeCompletedCount.isVisible = hasCompleted
+        completedHeaderAdapter.isVisible = hasCompleted
 
         // Empty state view
-        binding.tvEmptyDownloads.visibility =
-            if (!hasActive && !hasCompleted) View.VISIBLE else View.GONE
+        binding.tvEmptyDownloads.isVisible = !hasActive && !hasCompleted
 
         // Open article detail navigation
         state.openArticleEvent?.let { article ->
@@ -109,9 +127,8 @@ class DownloadsActivity :
         val progressPercent = ((usedGb / totalGb) * 100).toInt()
 
         with(binding.includedHeader) {
-            tvStorageUsage.text =
-                String.format(Locale.US, "%.1f GB / %d GB used", usedGb, totalGb.toInt())
-            tvStorageAvailable.text = String.format(Locale.US, "%.1f GB available", availableGb)
+            tvStorageUsage.text = getString(R.string.downloads_storage_used_format, usedGb, totalGb.toInt())
+            tvStorageAvailable.text = getString(R.string.downloads_storage_available_format, availableGb)
             pbStorage.progress = progressPercent
         }
 
@@ -133,12 +150,33 @@ class DownloadsActivity :
                 finish()
             }
 
-            tabDownloads.setOnClickListener { binding.scrollDownloads.smoothScrollTo(0, 0) }
+            tabDownloads.setOnClickListener { binding.rvDownloads.smoothScrollToPosition(0) }
 
             tabSettings.setOnClickListener {
-                Toast.makeText(this@DownloadsActivity, "Settings tab selected", Toast.LENGTH_SHORT)
+                Toast.makeText(this@DownloadsActivity, getString(R.string.downloads_settings_tab_selected), Toast.LENGTH_SHORT)
                     .show()
             }
         }
+    }
+
+    private class SingleViewAdapter(private val view: View) :
+        RecyclerView.Adapter<SingleViewAdapter.ViewHolder>() {
+
+        class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+
+        var isVisible: Boolean = true
+            set(value) {
+                if (field != value) {
+                    field = value
+                    notifyDataSetChanged()
+                }
+            }
+
+        override fun getItemCount(): Int = if (isVisible) 1 else 0
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
+            ViewHolder(view)
+
+        override fun onBindViewHolder(holder: ViewHolder, position: Int) {}
     }
 }

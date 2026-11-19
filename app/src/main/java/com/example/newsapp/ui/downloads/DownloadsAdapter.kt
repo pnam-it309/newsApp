@@ -4,13 +4,34 @@ import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.newsapp.R
 import com.example.newsapp.databinding.ItemDownloadActiveBinding
 import com.example.newsapp.databinding.ItemDownloadCompletedBinding
+
+enum class DownloadFormat(
+    @get:ColorRes val bgResId: Int,
+    @get:ColorRes val textResId: Int
+) {
+    PDF(R.color.download_badge_pdf_bg, R.color.download_badge_pdf_text),
+    HTML(R.color.download_badge_html_bg, R.color.download_badge_html_text),
+    IMAGE(R.color.download_badge_jpg_bg, R.color.download_badge_jpg_text),
+    OTHER(R.color.download_badge_completed_bg, R.color.download_badge_completed_text);
+
+    companion object {
+        fun from(format: String): DownloadFormat = when (format.uppercase()) {
+            "PDF" -> PDF
+            "HTML" -> HTML
+            "JPG", "PNG", "JPEG" -> IMAGE
+            else -> OTHER
+        }
+    }
+}
 
 interface HasId {
     val id: String
@@ -47,12 +68,28 @@ sealed interface DownloadItem : HasId {
 typealias ActiveDownloadItem = DownloadItem.Active
 typealias CompletedDownloadItem = DownloadItem.Completed
 
-class DownloadsAdapter(
-    private val onPauseClick: ((DownloadItem.Active) -> Unit)? = null,
-    private val onCancelClick: ((DownloadItem.Active) -> Unit)? = null,
-    private val onItemClick: ((DownloadItem.Completed) -> Unit)? = null,
-    private val onMoreClick: ((DownloadItem.Completed, View) -> Unit)? = null
-) : ListAdapter<DownloadItem, RecyclerView.ViewHolder>(GenericDiffCallback()) {
+class DownloadsAdapter : ListAdapter<DownloadItem, RecyclerView.ViewHolder>(GenericDiffCallback()) {
+
+    private var onPauseClickListener: ((DownloadItem.Active) -> Unit)? = null
+    private var onCancelClickListener: ((DownloadItem.Active) -> Unit)? = null
+    private var onItemClickListener: ((DownloadItem.Completed) -> Unit)? = null
+    private var onMoreClickListener: ((DownloadItem.Completed, View) -> Unit)? = null
+
+    fun setOnPauseClickListener(listener: (DownloadItem.Active) -> Unit) {
+        this.onPauseClickListener = listener
+    }
+
+    fun setOnCancelClickListener(listener: (DownloadItem.Active) -> Unit) {
+        this.onCancelClickListener = listener
+    }
+
+    fun setOnItemClickListener(listener: (DownloadItem.Completed) -> Unit) {
+        this.onItemClickListener = listener
+    }
+
+    fun setOnMoreClickListener(listener: (DownloadItem.Completed, View) -> Unit) {
+        this.onMoreClickListener = listener
+    }
 
     companion object {
         private const val VIEW_TYPE_ACTIVE = 1
@@ -79,12 +116,12 @@ class DownloadsAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val item = getItem(position)
         when (holder) {
-            is ActiveViewHolder -> holder.bind(item as DownloadItem.Active, onPauseClick, onCancelClick)
+            is ActiveViewHolder -> holder.bind(item as DownloadItem.Active, onPauseClickListener, onCancelClickListener)
             is CompletedViewHolder -> holder.bind(
                 item = item as DownloadItem.Completed,
                 isLastItem = position == itemCount - 1,
-                onItemClick = onItemClick,
-                onMoreClick = onMoreClick
+                onItemClick = onItemClickListener,
+                onMoreClick = onMoreClickListener
             )
         }
     }
@@ -107,7 +144,7 @@ class DownloadsAdapter(
                     item.totalSizeMb
                 )
                 tvActiveFormatBadge.text = item.format
-                tvActivePercent.text = "${item.progress}%"
+                tvActivePercent.text = context.getString(R.string.downloads_percent_format, item.progress)
                 pbActive.progress = item.progress
                 imgActiveThumb.setImageResource(item.imageRes)
 
@@ -141,48 +178,21 @@ class DownloadsAdapter(
             with(binding) {
                 tvCompletedTitle.text = item.title
                 tvCompletedTypeBadge.text = item.format
-                tvCompletedSize.text = "• ${item.sizeMb} MB"
-                tvCompletedTime.text = "• ${item.completedTime}"
+                tvCompletedSize.text = context.getString(R.string.downloads_size_mb_format, item.sizeMb)
+                tvCompletedTime.text = context.getString(R.string.downloads_time_format, item.completedTime)
                 imgCompletedThumb.setImageResource(item.imageRes)
 
-                // Dynamic badge color based on format
-                when (item.format.uppercase()) {
-                    "PDF" -> {
-                        tvCompletedTypeBadge.backgroundTintList = ColorStateList.valueOf(
-                            ContextCompat.getColor(context, R.color.download_badge_pdf_bg)
-                        )
-                        tvCompletedTypeBadge.setTextColor(
-                            ContextCompat.getColor(context, R.color.download_badge_pdf_text)
-                        )
-                    }
-                    "HTML" -> {
-                        tvCompletedTypeBadge.backgroundTintList = ColorStateList.valueOf(
-                            ContextCompat.getColor(context, R.color.download_badge_html_bg)
-                        )
-                        tvCompletedTypeBadge.setTextColor(
-                            ContextCompat.getColor(context, R.color.download_badge_html_text)
-                        )
-                    }
-                    "JPG", "PNG", "JPEG" -> {
-                        tvCompletedTypeBadge.backgroundTintList = ColorStateList.valueOf(
-                            ContextCompat.getColor(context, R.color.download_badge_jpg_bg)
-                        )
-                        tvCompletedTypeBadge.setTextColor(
-                            ContextCompat.getColor(context, R.color.download_badge_jpg_text)
-                        )
-                    }
-                    else -> {
-                        tvCompletedTypeBadge.backgroundTintList = ColorStateList.valueOf(
-                            ContextCompat.getColor(context, R.color.download_badge_completed_bg)
-                        )
-                        tvCompletedTypeBadge.setTextColor(
-                            ContextCompat.getColor(context, R.color.download_badge_completed_text)
-                        )
-                    }
-                }
+                // Dynamic badge color based on format enum
+                val badgeFormat = DownloadFormat.from(item.format)
+                tvCompletedTypeBadge.backgroundTintList = ColorStateList.valueOf(
+                    ContextCompat.getColor(context, badgeFormat.bgResId)
+                )
+                tvCompletedTypeBadge.setTextColor(
+                    ContextCompat.getColor(context, badgeFormat.textResId)
+                )
 
                 // Hide bottom divider for last item
-                dividerCompleted.visibility = if (isLastItem) View.GONE else View.VISIBLE
+                dividerCompleted.isVisible = !isLastItem
 
                 root.setOnClickListener { onItemClick?.invoke(item) }
                 btnMoreCompleted.setOnClickListener { view -> onMoreClick?.invoke(item, view) }

@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -68,14 +69,15 @@ class MainActivity : BaseActivity<ActivityHomeBinding>(ActivityHomeBinding::infl
 
     private fun renderUiState(state: NewsUiState) {
         val isSearching = state.searchQuery.isNotBlank()
-        binding.includedTopStory.root.visibility = if (isSearching) View.GONE else View.VISIBLE
+        binding.includedTopStory.root.isVisible = !isSearching
 
         if (!isSearching) {
             state.topStory?.let { setupTopStoryUi(it, state.isTopStoryBookmarked) }
         }
 
         newsAdapter.submitList(state.articles)
-        binding.includedNewsSection.tvStoriesCount.text = "${state.articles.size} Stories"
+        binding.includedNewsSection.tvStoriesCount.text =
+            getString(R.string.news_stories_count_format, state.articles.size)
         updateCategoryButtonStyles(state.selectedCategory)
 
         state.userMessage?.let { msg ->
@@ -159,7 +161,8 @@ class MainActivity : BaseActivity<ActivityHomeBinding>(ActivityHomeBinding::infl
             val isNight = AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES
             val newMode = if (isNight) AppCompatDelegate.MODE_NIGHT_NO else AppCompatDelegate.MODE_NIGHT_YES
             AppCompatDelegate.setDefaultNightMode(newMode)
-            Toast.makeText(this, if (isNight) "Light Mode Enabled" else "Dark Mode Enabled", Toast.LENGTH_SHORT).show()
+            val msgResId = if (isNight) R.string.msg_light_mode_enabled else R.string.msg_dark_mode_enabled
+            Toast.makeText(this, getString(msgResId), Toast.LENGTH_SHORT).show()
         }
     }
 

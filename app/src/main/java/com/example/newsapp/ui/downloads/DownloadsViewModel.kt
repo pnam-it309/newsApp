@@ -3,6 +3,7 @@ package com.example.newsapp.ui.downloads
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.newsapp.R
 import com.example.newsapp.data.local.AppDatabase
 import com.example.newsapp.ui.entity.Article
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -58,7 +59,8 @@ class DownloadsViewModel(
             if (article != null) {
                 _uiState.update { it.copy(openArticleEvent = article) }
             } else {
-                _uiState.update { it.copy(userMessage = "Bài viết không khả dụng") }
+                val msg = getApplication<Application>().getString(R.string.downloads_msg_article_unavailable)
+                _uiState.update { it.copy(userMessage = msg) }
             }
         }
     }
@@ -77,13 +79,14 @@ class DownloadsViewModel(
     }
 
     fun cancelDownload(itemId: String) {
+        val msg = getApplication<Application>().getString(R.string.downloads_msg_cancelled)
         _uiState.update { state ->
             val updated = state.activeDownloads.filterNot { it.id == itemId }
             val usedGb = repository.calculateUsedStorageGb(updated, state.completedDownloads)
             state.copy(
                 activeDownloads = updated,
                 usedStorageGb = usedGb,
-                userMessage = "Đã hủy tải xuống"
+                userMessage = msg
             )
         }
     }
@@ -92,7 +95,8 @@ class DownloadsViewModel(
         viewModelScope.launch {
             repository.deleteCompletedDownload(itemId)
             loadDownloadsData()
-            _uiState.update { it.copy(userMessage = "Đã xóa bài viết khỏi mục tải xuống") }
+            val msg = getApplication<Application>().getString(R.string.downloads_msg_deleted)
+            _uiState.update { it.copy(userMessage = msg) }
         }
     }
 
@@ -108,7 +112,8 @@ class DownloadsViewModel(
         viewModelScope.launch {
             repository.clearAllCompletedDownloads()
             loadDownloadsData()
-            _uiState.update { it.copy(userMessage = "Đã xóa toàn bộ lịch sử tải xuống") }
+            val msg = getApplication<Application>().getString(R.string.downloads_msg_cleared)
+            _uiState.update { it.copy(userMessage = msg) }
         }
     }
 
